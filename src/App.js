@@ -119,19 +119,19 @@ class GameResultsTable extends React.Component {
     if ('year' in filters) {
       // console.log('Check Year')
       let year = gameDate.getFullYear();
-      if (parseInt(year, 10) !== parseInt(filters.year, 10)) return false
+      if (Number(year) !== Number(filters.year)) return false
     }
 
     if ('month' in filters) {
       // console.log('Check Month')
       let month = gameDate.getMonth();
-      if (parseInt(month, 10) !== parseInt(filters.month, 10)) return false
+      if (Number(month) !== Number(filters.month)) return false
     }
 
     if ('day' in filters) {
       // console.log('Check Day')
       let day = gameDate.getDate();
-      if (parseInt(day, 10) !== parseInt(filters.day, 10)) return false
+      if (Number(day) !== Number(filters.day)) return false
     }
 
     if ('nd_coach' in filters) {
