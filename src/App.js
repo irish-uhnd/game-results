@@ -1,12 +1,17 @@
-import React from "react";
-import ALL_GAMES from "./gamelist_full";
-import "./styles.css";
+import React from 'react'
+import { hot } from 'react-hot-loader'
+import ALL_GAMES from './gamelist_full'
+import './styles.css'
 
 const MONTHS = [''].concat([...Array(12).keys()])
 const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
 const DAYS = [''].concat([...Array(30).keys()].slice(1))
-const ND_COACHES = [''].concat([...new Set(ALL_GAMES.map((game) => game.nd_coach))].sort())
-const OPP_COACHES = [''].concat([...new Set(ALL_GAMES.map((game) => game.opp_coach))].sort())
+const ND_COACHES = [''].concat(
+  [...new Set(ALL_GAMES.map((game) => game.nd_coach))].sort()
+)
+const OPP_COACHES = [''].concat(
+  [...new Set(ALL_GAMES.map((game) => game.opp_coach))].sort()
+)
 
 class SearchBar extends React.Component {
   // constructor(props) {
@@ -17,7 +22,7 @@ class SearchBar extends React.Component {
   handleFilter(filterKey, e) {
     // console.log(`Set filter type to: ${filterKey}`);
     // console.log(`Set filter value to ${e.target.value}`);
-    this.props.onFilterChange(filterKey, e.target.value);
+    this.props.onFilterChange(filterKey, e.target.value)
   }
 
   handleClear(e) {
@@ -26,19 +31,33 @@ class SearchBar extends React.Component {
 
   render() {
     const years = YEARS.map((year) => {
-      return <option key={year} value={year}>{year}</option>;
-    });
+      return (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      )
+    })
     const months = MONTHS.map((month) => (
-      <option key={month} value={month}>{Number.isNaN(parseInt(month)) ? month : month + 1}</option>
-    ));
-    const days = DAYS.map((day) => <option key={day} value={day}>{day}</option>);
+      <option key={month} value={month}>
+        {Number.isNaN(parseInt(month)) ? month : month + 1}
+      </option>
+    ))
+    const days = DAYS.map((day) => (
+      <option key={day} value={day}>
+        {day}
+      </option>
+    ))
 
-    const nd_coaches = ND_COACHES.map((coach) =>
-      <option key={coach} value={coach.toLowerCase()}>{coach}</option>
-    )
-    const opp_coaches = OPP_COACHES.map((coach) =>
-      <option key={coach} value={coach.toLowerCase()}>{coach}</option>
-    )
+    const nd_coaches = ND_COACHES.map((coach) => (
+      <option key={coach} value={coach.toLowerCase()}>
+        {coach}
+      </option>
+    ))
+    const opp_coaches = OPP_COACHES.map((coach) => (
+      <option key={coach} value={coach.toLowerCase()}>
+        {coach}
+      </option>
+    ))
 
     // let filters = Object.keys(this.props.filters).map((filter) => {
     //   return <p key={filter}>{filter}</p>;
@@ -52,31 +71,31 @@ class SearchBar extends React.Component {
           <fieldset>
             <legend>Date</legend>
             <label>
-              Year:{" "}
+              Year:{' '}
               <select
-                onChange={this.handleFilter.bind(this, "year")}
+                onChange={this.handleFilter.bind(this, 'year')}
                 value={'year' in filters ? filters.year : ''}
-                >
+              >
                 {years}
               </select>
             </label>
             <label>
-              {" "}
-              Month:{" "}
+              {' '}
+              Month:{' '}
               <select
-                onChange={this.handleFilter.bind(this, "month")}
+                onChange={this.handleFilter.bind(this, 'month')}
                 value={'month' in filters ? filters.month : ''}
-                >
+              >
                 {months}
               </select>
             </label>
             <label>
-              {" "}
-              Day:{" "}
+              {' '}
+              Day:{' '}
               <select
-                onChange={this.handleFilter.bind(this, "day")}
+                onChange={this.handleFilter.bind(this, 'day')}
                 value={'day' in filters ? filters.day : ''}
-                >
+              >
                 {days}
               </select>
             </label>
@@ -84,17 +103,30 @@ class SearchBar extends React.Component {
 
           <fieldset>
             <legend>Coaches</legend>
-            <label>Notre Dame
-             <select onChange={this.handleFilter.bind(this, "nd_coach")} value={'nd_coach' in filters ? filters.nd_coach : ''}>{nd_coaches}</select>
+            <label>
+              Notre Dame
+              <select
+                onChange={this.handleFilter.bind(this, 'nd_coach')}
+                value={'nd_coach' in filters ? filters.nd_coach : ''}
+              >
+                {nd_coaches}
+              </select>
             </label>
-            <label>Opponent
-             <select onChange={this.handleFilter.bind(this, "opp_coach")} value={'opp_coach' in filters ? filters.opp_coach : ''}>{opp_coaches}</select>
+            <label>
+              Opponent
+              <select
+                onChange={this.handleFilter.bind(this, 'opp_coach')}
+                value={'opp_coach' in filters ? filters.opp_coach : ''}
+              >
+                {opp_coaches}
+              </select>
             </label>
           </fieldset>
-          <button onClick={this.handleClear.bind(this)}>Start Over</button><br />
+          <button onClick={this.handleClear.bind(this)}>Start Over</button>
+          <br />
         </fieldset>
       </div>
-    );
+    )
   }
 }
 
@@ -105,7 +137,6 @@ class GameResultsTable extends React.Component {
     this.losses = 0
     this.ties = 0
   }
-
 
   includeGame(game) {
     // Check if year matches
@@ -118,19 +149,19 @@ class GameResultsTable extends React.Component {
 
     if ('year' in filters) {
       // console.log('Check Year')
-      let year = gameDate.getFullYear();
+      let year = gameDate.getFullYear()
       if (Number(year) !== Number(filters.year)) return false
     }
 
     if ('month' in filters) {
       // console.log('Check Month')
-      let month = gameDate.getMonth();
+      let month = gameDate.getMonth()
       if (Number(month) !== Number(filters.month)) return false
     }
 
     if ('day' in filters) {
       // console.log('Check Day')
-      let day = gameDate.getDate();
+      let day = gameDate.getDate()
       if (Number(day) !== Number(filters.day)) return false
     }
 
@@ -152,7 +183,9 @@ class GameResultsTable extends React.Component {
     // const wins = games.filter(x => x.result === 'W').length
     // const losses = games.filter(x => x.result === 'W').length
 
-    let wins=0, losses=0, ties=0;
+    let wins = 0,
+      losses = 0,
+      ties = 0
 
     games.forEach((game) => {
       if (game.result === 'W') wins += 1
@@ -189,26 +222,26 @@ class GameResultsTable extends React.Component {
       if (filterCount > 0 && this.includeGame(game)) {
         matchingGames.push(game)
       }
-    });
+    })
     return matchingGames
   }
 
   render() {
-    const resultRows = [];
+    const resultRows = []
     const matchingGames = this.getMatchingGames()
 
     matchingGames.forEach((game) => {
       resultRows.push(
-          <tr key={game.date}>
-            <td>{game.date}</td>
-            <td>{game.result}</td>
-            <td>{game.site}</td>
-            <td>{game.nd_coach}</td>
-            <td>{game.nd_score}</td>
-            <td>{game.opp_score}</td>
-            <td>{game.opponent}</td>
-          </tr>
-        );
+        <tr key={game.date}>
+          <td>{game.date}</td>
+          <td>{game.result}</td>
+          <td>{game.site}</td>
+          <td>{game.nd_coach}</td>
+          <td>{game.nd_score}</td>
+          <td>{game.opp_score}</td>
+          <td>{game.opponent}</td>
+        </tr>
+      )
     })
 
     this.calculateRecord(matchingGames)
@@ -235,37 +268,35 @@ class GameResultsTable extends React.Component {
               <th>Opponent</th>
             </tr>
           </thead>
-          <tbody>
-            {resultRows}
-          </tbody>
+          <tbody>{resultRows}</tbody>
         </table>
       </div>
-    );
+    )
   }
 }
 
 class FilterableGameTable extends React.Component {
   constructor(props) {
-    super(props);
-    this.handleChangedFilter = this.handleChangedFilter.bind(this);
-    this.handleClearFilters = this.handleClearFilters.bind(this);
-    this.handleResultsUpdated = this.handleResultsUpdated.bind(this);
+    super(props)
+    this.handleChangedFilter = this.handleChangedFilter.bind(this)
+    this.handleClearFilters = this.handleClearFilters.bind(this)
+    this.handleResultsUpdated = this.handleResultsUpdated.bind(this)
     this.state = {
       filters: {},
       wins: 0,
       losses: 0,
-      ties: 0
-    };
+      ties: 0,
+    }
   }
 
   handleChangedFilter(filterKey, filterValue) {
     const currentFilters = Object.assign({}, this.state.filters)
     if (filterValue === '') {
-      delete(currentFilters[filterKey])
+      delete currentFilters[filterKey]
     } else {
       currentFilters[filterKey] = filterValue
     }
-    this.setState({ filters: currentFilters });
+    this.setState({ filters: currentFilters })
   }
 
   handleClearFilters() {
@@ -274,7 +305,7 @@ class FilterableGameTable extends React.Component {
     // console.log(this.state.filters)
     // const filters = {}
     Object.keys(currentFilters).forEach((key) => {
-      delete(currentFilters[key])
+      delete currentFilters[key]
     })
     // this.setState({ filters: filters})
     this.setState({ filters: currentFilters })
@@ -298,10 +329,16 @@ class FilterableGameTable extends React.Component {
           onResultsUpdated={this.handleResultsUpdated}
         />
       </div>
-    );
+    )
   }
 }
 
-export default function App() {
-  return <FilterableGameTable games={ALL_GAMES} />;
+function App() {
+  return <FilterableGameTable games={ALL_GAMES} />
 }
+
+// export default function App() {
+//   return <FilterableGameTable games={ALL_GAMES} />
+// }
+
+export default hot(module)(App)
