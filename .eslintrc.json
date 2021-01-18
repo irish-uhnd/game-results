@@ -9,6 +9,7 @@
     "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   },
   "parserOptions": {
+    "sourceType": "module",
     "ecmaVersion": 2017
   },
   "env": {
