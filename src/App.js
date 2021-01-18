@@ -2,6 +2,7 @@ import React from 'react'
 import { hot } from 'react-hot-loader'
 import ALL_GAMES from './gamelist_full'
 import './styles.css'
+// import './tailwind.css'
 
 const MONTHS = [''].concat([...Array(12).keys()])
 const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
@@ -334,7 +335,11 @@ class FilterableGameTable extends React.Component {
 }
 
 function App() {
-  return <FilterableGameTable games={ALL_GAMES} />
+  return (
+    <div>
+      <FilterableGameTable games={ALL_GAMES} />
+    </div>
+  )
 }
 
 // export default function App() {
