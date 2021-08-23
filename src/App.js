@@ -7,12 +7,20 @@ import './styles.css'
 const MONTHS = [''].concat([...Array(12).keys()])
 const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
 const DAYS = [''].concat([...Array(30).keys()].slice(1))
-const ND_COACHES = [''].concat(
+const DISTINCT_ND_COACHES = [''].concat(
   [...new Set(ALL_GAMES.map((game) => game.nd_coach))].sort()
 )
+const ND_COACHES = DISTINCT_ND_COACHES.map(name => ({ by_first: name, by_last: name.split(' ').reverse().join(', ') })).sort((a,b) => a.by_last > b.by_last && 1 || -1)
+
 const OPP_COACHES = [''].concat(
   [...new Set(ALL_GAMES.map((game) => game.opp_coach))].sort()
 )
+
+const OPPONENTS = [''].concat(
+  [...new Set(ALL_GAMES.map(game => game.opponent))].sort()
+)
+
+console.log(OPPONENTS)
 
 class SearchBar extends React.Component {
   // constructor(props) {
@@ -50,13 +58,20 @@ class SearchBar extends React.Component {
     ))
 
     const nd_coaches = ND_COACHES.map((coach) => (
+      <option key={coach.by_last} value={coach.by_first.toLowerCase()}>
+        {coach.by_last}
+       </option>
+    ))
+
+    const opp_coaches = OPP_COACHES.map((coach) => (
       <option key={coach} value={coach.toLowerCase()}>
         {coach}
       </option>
     ))
-    const opp_coaches = OPP_COACHES.map((coach) => (
-      <option key={coach} value={coach.toLowerCase()}>
-        {coach}
+
+    const opponents = OPPONENTS.map(opponent => (
+      <option key={opponent} value={opponent.toLowerCase()}>
+        {opponent}
       </option>
     ))
 
@@ -100,6 +115,16 @@ class SearchBar extends React.Component {
                 {days}
               </select>
             </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Teams</legend>
+            <select
+              onChange={this.handleFilter.bind(this, 'opponent')}
+              value={'opponent' in filters ? filters.opponent: ''}
+            >
+              {opponents}
+            </select>
           </fieldset>
 
           <fieldset>
@@ -176,6 +201,11 @@ class GameResultsTable extends React.Component {
       if (coach !== filters.opp_coach) return false
     }
 
+    if ('opponent' in filters) {
+      let opponent = game.opponent.toLowerCase()
+      if (opponent !== filters.opponent) return false;
+    }
+
     return true
   }
 
@@ -238,6 +268,7 @@ class GameResultsTable extends React.Component {
           <td>{game.result}</td>
           <td>{game.site}</td>
           <td>{game.nd_coach}</td>
+          <td>{game.opp_coach}</td>
           <td>{game.nd_score}</td>
           <td>{game.opp_score}</td>
           <td>{game.opponent}</td>
@@ -250,27 +281,34 @@ class GameResultsTable extends React.Component {
     // setInterval(() => this.props.onResultsUpdated(1, 2, 3), 0)
 
     return (
-      <div>
-        <fieldset>
-          <legend>Results</legend>
-          <span>Wins: {this.wins} </span>
-          <span>Losses: {this.losses} </span>
-          <span>Ties: {this.ties} </span>
-        </fieldset>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Result</th>
-              <th>Site</th>
-              <th>ND Coach</th>
-              <th>ND Score</th>
-              <th>Opponent Score</th>
-              <th>Opponent</th>
-            </tr>
-          </thead>
-          <tbody>{resultRows}</tbody>
-        </table>
+      <div className="results">
+        <div className="fieldset">
+          <fieldset>
+            <legend>Results</legend>
+            <span>Wins: {this.wins} </span>
+            <span>Losses: {this.losses} </span>
+            <span>Ties: {this.ties} </span>
+          </fieldset>
+        </div>
+        <div className="results-table">
+          <div className="game-list">
+            <table>
+              <thead>
+                <tr>
+                  <th className="header">Date</th>
+                  <th>Result</th>
+                  <th>Site</th>
+                  <th>ND Coach</th>
+                  <th>Opponent Coach</th>
+                  <th>ND Score</th>
+                  <th>Opponent Score</th>
+                  <th>Opponent</th>
+                </tr>
+              </thead>
+              <tbody>{resultRows}</tbody>
+            </table>
+          </div>
+        </div>
       </div>
     )
   }
@@ -336,7 +374,7 @@ class FilterableGameTable extends React.Component {
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <FilterableGameTable games={ALL_GAMES} />
     </div>
   )

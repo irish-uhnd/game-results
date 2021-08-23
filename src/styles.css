@@ -2,3 +2,56 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato";
+  font-weight: 400;
+  color: black;
+  padding: 30px;
+  line-height: 1.5;
+  height: 95vh;
+}
+
+.results-table {
+  position: relative;
+}
+
+.results .fieldset {
+  text-align: center;
+}
+
+.results .fieldset legend {
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+.results .fieldset span {
+  color: green;
+  text-align: center;
+  padding: 15px;
+}
+
+.results-table .game-list {
+  color: blue;
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.game-list table {
+  text-align: left;
+  width: 85vw;
+}
+
+.game-list table .header {
+  color: red;
+  text-align: left;
+}
