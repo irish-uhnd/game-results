@@ -1,8 +1,11 @@
 import React from 'react'
-import { hot } from 'react-hot-loader'
-import ALL_GAMES from './gamelist_full'
+import {hot} from 'react-hot-loader'
+// import ALL_GAMES from './gamelist_full'
 import './styles.css'
 // import './tailwind.css'
+import ALL_GAMES from './data/games3.json'
+
+// const ALL_GAMES = JSON.parse(json);
 
 const MONTHS = [''].concat([...Array(12).keys()])
 const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
@@ -10,16 +13,20 @@ const DAYS = [''].concat([...Array(30).keys()].slice(1))
 const DISTINCT_ND_COACHES = [''].concat(
   [...new Set(ALL_GAMES.map((game) => game.nd_coach))].sort()
 )
-const ND_COACHES = DISTINCT_ND_COACHES.map(name => ({ by_first: name, by_last: name.split(' ').reverse().join(', ') })).sort((a,b) => a.by_last > b.by_last && 1 || -1)
+const ND_COACHES = DISTINCT_ND_COACHES.map((name) => ({
+  by_first: name,
+  by_last: name.split(' ').reverse().join(', '),
+})).sort((a, b) => (a.by_last > b.by_last && 1) || -1)
+
+console.log(DISTINCT_ND_COACHES)
 
 const OPP_COACHES = [''].concat(
   [...new Set(ALL_GAMES.map((game) => game.opp_coach))].sort()
 )
 
 const OPPONENTS = [''].concat(
-  [...new Set(ALL_GAMES.map(game => game.opponent))].sort()
+  [...new Set(ALL_GAMES.map((game) => game.opponent))].sort()
 )
-
 console.log(OPPONENTS)
 
 class SearchBar extends React.Component {
@@ -60,7 +67,7 @@ class SearchBar extends React.Component {
     const nd_coaches = ND_COACHES.map((coach) => (
       <option key={coach.by_last} value={coach.by_first.toLowerCase()}>
         {coach.by_last}
-       </option>
+      </option>
     ))
 
     const opp_coaches = OPP_COACHES.map((coach) => (
@@ -69,7 +76,7 @@ class SearchBar extends React.Component {
       </option>
     ))
 
-    const opponents = OPPONENTS.map(opponent => (
+    const opponents = OPPONENTS.map((opponent) => (
       <option key={opponent} value={opponent.toLowerCase()}>
         {opponent}
       </option>
@@ -121,7 +128,7 @@ class SearchBar extends React.Component {
             <legend>Teams</legend>
             <select
               onChange={this.handleFilter.bind(this, 'opponent')}
-              value={'opponent' in filters ? filters.opponent: ''}
+              value={'opponent' in filters ? filters.opponent : ''}
             >
               {opponents}
             </select>
@@ -203,7 +210,7 @@ class GameResultsTable extends React.Component {
 
     if ('opponent' in filters) {
       let opponent = game.opponent.toLowerCase()
-      if (opponent !== filters.opponent) return false;
+      if (opponent !== filters.opponent) return false
     }
 
     return true
@@ -335,7 +342,7 @@ class FilterableGameTable extends React.Component {
     } else {
       currentFilters[filterKey] = filterValue
     }
-    this.setState({ filters: currentFilters })
+    this.setState({filters: currentFilters})
   }
 
   handleClearFilters() {
@@ -347,11 +354,11 @@ class FilterableGameTable extends React.Component {
       delete currentFilters[key]
     })
     // this.setState({ filters: filters})
-    this.setState({ filters: currentFilters })
+    this.setState({filters: currentFilters})
   }
 
   handleResultsUpdated(wins, losses, ties) {
-    this.setState({ wins: wins, losses: losses, ties: ties })
+    this.setState({wins: wins, losses: losses, ties: ties})
   }
 
   render() {
