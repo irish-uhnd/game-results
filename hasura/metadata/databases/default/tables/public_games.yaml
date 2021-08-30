@@ -1,0 +1,13 @@
+table:
+  name: games
+  schema: public
+object_relationships:
+- name: ndCoach
+  using:
+    foreign_key_constraint_on: nd_coach
+- name: oppCoach
+  using:
+    foreign_key_constraint_on: opp_coach
+- name: opponent
+  using:
+    foreign_key_constraint_on: opp_team_id

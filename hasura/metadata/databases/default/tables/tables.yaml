@@ -1,0 +1,4 @@
+- "!include public_coaches.yaml"
+- "!include public_games.yaml"
+- "!include public_team_coaches.yaml"
+- "!include public_teams.yaml"
