@@ -4,8 +4,56 @@ import {hot} from 'react-hot-loader'
 import './styles.css'
 // import './tailwind.css'
 import ALL_GAMES from './data/games3.json'
-
 // const ALL_GAMES = JSON.parse(json);
+
+// import {
+//   ApolloClient,
+//   InMemoryCache,
+//   ApolloProvider,
+//   useQuery,
+//   gql,
+// } from '@apollo/client'
+
+// const client = new ApolloClient({
+//   uri: 'https://tidy-basilisk-31.hasura.app/v1/graphql',
+//   cache: new InMemoryCache(),
+// })
+
+import {ApolloClient, createHttpLink, InMemoryCache, gql} from '@apollo/client'
+import {setContext} from '@apollo/client/link/context'
+
+const httpLink = createHttpLink({
+  uri: 'https://tidy-basilisk-31.hasura.app/v1/graphql',
+})
+
+const authLink = setContext((_, {headers}) => {
+  return {
+    headers: {
+      ...headers,
+      'x-hasura-admin-secret':
+        'a5SnxJlRf2ASghYAb1i30PvOcbTIiVpcIeqX7JAVO9U9CVYAU1Ilqi14lSWL2P5h',
+    },
+  }
+})
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+})
+
+client
+  .query({
+    query: gql`
+      query GetCoaches {
+        coaches(limit: 2) {
+          id
+          first_name
+          last_name
+        }
+      }
+    `,
+  })
+  .then((result) => console.log(result.data.coaches))
 
 const MONTHS = [''].concat([...Array(12).keys()])
 const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
