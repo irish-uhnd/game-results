@@ -1,3 +1,10 @@
 table:
   name: coaches
   schema: public
+computed_fields:
+- comment: ""
+  definition:
+    function:
+      name: coach_full_name
+      schema: public
+  name: full_name
