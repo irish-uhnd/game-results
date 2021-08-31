@@ -19,8 +19,16 @@ import ALL_GAMES from './data/games3.json'
 //   cache: new InMemoryCache(),
 // })
 
-import {ApolloClient, createHttpLink, InMemoryCache, gql} from '@apollo/client'
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCache,
+  gql,
+  useQuery,
+} from '@apollo/client'
 import {setContext} from '@apollo/client/link/context'
+import {isTaggedTemplateExpression} from 'typescript'
 
 const httpLink = createHttpLink({
   // uri: 'https://tidy-basilisk-31.hasura.app/v1/graphql',
@@ -42,19 +50,44 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-client
-  .query({
-    query: gql`
-      query GetCoaches {
-        coaches(limit: 2) {
-          id
-          first_name
-          last_name
-        }
-      }
-    `,
-  })
-  .then((result) => console.log(result.data.coaches))
+const ALL_DATA = gql`
+  query AllData {
+    nd: coaches(
+      where: {is_notre_dame: {_eq: "true"}}
+      order_by: {last_name: asc}
+    ) {
+      id
+      first_name
+      middle_name
+      last_name
+      suffix
+      full_name
+    }
+
+    opponent: coaches(
+      where: {is_opponent: {_eq: "true"}}
+      order_by: {last_name: asc}
+    ) {
+      id
+      first_name
+      middle_name
+      last_name
+      suffix
+      full_name
+    }
+
+    teams: teams {
+      id
+      name
+    }
+  }
+`
+
+// client
+//   .query({
+//     query: ALL_COACHES,
+//   })
+//   .then((result) => console.log(result.data.coaches))
 
 const MONTHS = [''].concat([...Array(12).keys()])
 const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
@@ -113,11 +146,37 @@ class SearchBar extends React.Component {
       </option>
     ))
 
-    const nd_coaches = ND_COACHES.map((coach) => (
-      <option key={coach.by_last} value={coach.by_first.toLowerCase()}>
-        {coach.by_last}
-      </option>
-    ))
+    console.log('----')
+    console.log(ND_COACHES)
+    console.log(this.props.ndCoaches)
+
+    const ndCoaches = this.props.ndCoaches.map((coach) => {
+      // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
+      let by_last_name = `${coach.last_name}, ${[
+        coach.first_name,
+        coach.middle_name,
+        coach.suffix,
+      ]
+        .filter(Boolean)
+        .join(' ')}`
+      let by_first_name = [
+        coach.first_name,
+        coach.middle_name,
+        coach.last_name,
+        coach.suffix,
+      ]
+        .filter(Boolean)
+        .join(' ')
+      return (
+        <option key={by_last_name} value={by_first_name.toLowerCase()}>
+          {by_last_name}
+        </option>
+      )
+    })
+
+    ndCoaches.unshift(<option key="" value="" />)
+
+    console.log(ndCoaches)
 
     const opp_coaches = OPP_COACHES.map((coach) => (
       <option key={coach} value={coach.toLowerCase()}>
@@ -191,7 +250,7 @@ class SearchBar extends React.Component {
                 onChange={this.handleFilter.bind(this, 'nd_coach')}
                 value={'nd_coach' in filters ? filters.nd_coach : ''}
               >
-                {nd_coaches}
+                {ndCoaches}
               </select>
             </label>
             <label>
@@ -417,6 +476,7 @@ class FilterableGameTable extends React.Component {
           filters={this.state.filters}
           onFilterChange={this.handleChangedFilter}
           onClearFilter={this.handleClearFilters}
+          ndCoaches={this.props.ndCoaches}
         />
         <GameResultsTable
           games={this.props.games}
@@ -429,10 +489,25 @@ class FilterableGameTable extends React.Component {
 }
 
 function App() {
+  const {loading, error, data} = useQuery(ALL_DATA)
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
+
+  console.log('Here are your coaches')
+  console.log(data)
+
   return (
     <div className="app">
-      <FilterableGameTable games={ALL_GAMES} />
+      <FilterableGameTable ndCoaches={data.nd} games={ALL_GAMES} />
     </div>
+  )
+}
+
+function WrappedApp() {
+  return (
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   )
 }
 
@@ -440,4 +515,4 @@ function App() {
 //   return <FilterableGameTable games={ALL_GAMES} />
 // }
 
-export default hot(module)(App)
+export default hot(module)(WrappedApp)
