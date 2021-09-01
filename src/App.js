@@ -64,7 +64,7 @@ const ALL_DATA = gql`
       full_name
     }
 
-    opponent: coaches(
+    opponents: coaches(
       where: {is_opponent: {_eq: "true"}}
       order_by: {last_name: asc}
     ) {
@@ -82,12 +82,6 @@ const ALL_DATA = gql`
     }
   }
 `
-
-// client
-//   .query({
-//     query: ALL_COACHES,
-//   })
-//   .then((result) => console.log(result.data.coaches))
 
 const MONTHS = [''].concat([...Array(12).keys()])
 const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
@@ -109,8 +103,6 @@ const OPP_COACHES = [''].concat(
 const OPPONENTS = [''].concat(
   [...new Set(ALL_GAMES.map((game) => game.opponent))].sort()
 )
-console.log(OPPONENTS)
-
 class SearchBar extends React.Component {
   // constructor(props) {
   //   super(props);
@@ -146,10 +138,6 @@ class SearchBar extends React.Component {
       </option>
     ))
 
-    console.log('----')
-    console.log(ND_COACHES)
-    console.log(this.props.ndCoaches)
-
     const ndCoaches = this.props.ndCoaches.map((coach) => {
       // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
       let by_last_name = `${coach.last_name}, ${[
@@ -176,23 +164,39 @@ class SearchBar extends React.Component {
 
     ndCoaches.unshift(<option key="" value="" />)
 
-    console.log(ndCoaches)
+    const oppCoaches = this.props.oppCoaches.map((coach) => {
+      // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
+      let by_last_name = `${coach.last_name}, ${[
+        coach.first_name,
+        coach.middle_name,
+        coach.suffix,
+      ]
+        .filter(Boolean)
+        .join(' ')}`
+      let by_first_name = [
+        coach.first_name,
+        coach.middle_name,
+        coach.last_name,
+        coach.suffix,
+      ]
+        .filter(Boolean)
+        .join(' ')
+      return (
+        <option key={by_last_name} value={by_first_name.toLowerCase()}>
+          {by_last_name}
+        </option>
+      )
+    })
 
-    const opp_coaches = OPP_COACHES.map((coach) => (
-      <option key={coach} value={coach.toLowerCase()}>
-        {coach}
+    oppCoaches.unshift(<option key="" value="" />)
+
+    const opponents = this.props.teams.map((team) => (
+      <option key={team.name} value={team.name.toLowerCase()}>
+        {team.name}
       </option>
     ))
 
-    const opponents = OPPONENTS.map((opponent) => (
-      <option key={opponent} value={opponent.toLowerCase()}>
-        {opponent}
-      </option>
-    ))
-
-    // let filters = Object.keys(this.props.filters).map((filter) => {
-    //   return <p key={filter}>{filter}</p>;
-    // });
+    opponents.unshift(<option key="" value="" />)
 
     const filters = this.props.filters
 
@@ -259,7 +263,7 @@ class SearchBar extends React.Component {
                 onChange={this.handleFilter.bind(this, 'opp_coach')}
                 value={'opp_coach' in filters ? filters.opp_coach : ''}
               >
-                {opp_coaches}
+                {oppCoaches}
               </select>
             </label>
           </fieldset>
@@ -477,6 +481,8 @@ class FilterableGameTable extends React.Component {
           onFilterChange={this.handleChangedFilter}
           onClearFilter={this.handleClearFilters}
           ndCoaches={this.props.ndCoaches}
+          oppCoaches={this.props.oppCoaches}
+          teams={this.props.teams}
         />
         <GameResultsTable
           games={this.props.games}
@@ -498,7 +504,12 @@ function App() {
 
   return (
     <div className="app">
-      <FilterableGameTable ndCoaches={data.nd} games={ALL_GAMES} />
+      <FilterableGameTable
+        oppCoaches={data.opponents}
+        ndCoaches={data.nd}
+        teams={data.teams}
+        games={ALL_GAMES}
+      />
     </div>
   )
 }
