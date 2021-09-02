@@ -83,9 +83,6 @@ const ALL_DATA = gql`
   }
 `
 
-const MONTHS = [''].concat([...Array(12).keys()])
-const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
-const DAYS = [''].concat([...Array(30).keys()].slice(1))
 const DISTINCT_ND_COACHES = [''].concat(
   [...new Set(ALL_GAMES.map((game) => game.nd_coach))].sort()
 )
@@ -103,176 +100,172 @@ const OPP_COACHES = [''].concat(
 const OPPONENTS = [''].concat(
   [...new Set(ALL_GAMES.map((game) => game.opponent))].sort()
 )
-class SearchBar extends React.Component {
-  // constructor(props) {
-  //   super(props);
-  //   // this.handleYear = this.handleYear.bind(this);
-  // }
-
-  handleFilter(filterKey, e) {
+function SearchBar({props}) {
+  function handleFilter(filterKey) {
     // console.log(`Set filter type to: ${filterKey}`);
     // console.log(`Set filter value to ${e.target.value}`);
-    this.props.onFilterChange(filterKey, e.target.value)
+    return (e) => props.onFilterChange(filterKey, e.target.value)
   }
 
-  handleClear(e) {
-    this.props.onClearFilter()
+  function handleClear(e) {
+    props.onClearFilter()
   }
 
-  render() {
-    const years = YEARS.map((year) => {
-      return (
-        <option key={year} value={year}>
-          {year}
-        </option>
-      )
-    })
-    const months = MONTHS.map((month) => (
-      <option key={month} value={month}>
-        {Number.isNaN(parseInt(month)) ? month : month + 1}
-      </option>
-    ))
-    const days = DAYS.map((day) => (
-      <option key={day} value={day}>
-        {day}
-      </option>
-    ))
+  const MONTHS = [''].concat([...Array(12).keys()])
+  const DAYS = [''].concat([...Array(30).keys()].slice(1))
+  const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
 
-    const ndCoaches = this.props.ndCoaches.map((coach) => {
-      // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
-      let by_last_name = `${coach.last_name}, ${[
-        coach.first_name,
-        coach.middle_name,
-        coach.suffix,
-      ]
-        .filter(Boolean)
-        .join(' ')}`
-      let by_first_name = [
-        coach.first_name,
-        coach.middle_name,
-        coach.last_name,
-        coach.suffix,
-      ]
-        .filter(Boolean)
-        .join(' ')
-      return (
-        <option key={by_last_name} value={by_first_name.toLowerCase()}>
-          {by_last_name}
-        </option>
-      )
-    })
-
-    ndCoaches.unshift(<option key="" value="" />)
-
-    const oppCoaches = this.props.oppCoaches.map((coach) => {
-      // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
-      let by_last_name = `${coach.last_name}, ${[
-        coach.first_name,
-        coach.middle_name,
-        coach.suffix,
-      ]
-        .filter(Boolean)
-        .join(' ')}`
-      let by_first_name = [
-        coach.first_name,
-        coach.middle_name,
-        coach.last_name,
-        coach.suffix,
-      ]
-        .filter(Boolean)
-        .join(' ')
-      return (
-        <option key={by_last_name} value={by_first_name.toLowerCase()}>
-          {by_last_name}
-        </option>
-      )
-    })
-
-    oppCoaches.unshift(<option key="" value="" />)
-
-    const opponents = this.props.teams.map((team) => (
-      <option key={team.name} value={team.name.toLowerCase()}>
-        {team.name}
-      </option>
-    ))
-
-    opponents.unshift(<option key="" value="" />)
-
-    const filters = this.props.filters
-
+  const years = YEARS.map((year) => {
     return (
-      <div>
-        <fieldset>
-          <fieldset>
-            <legend>Date</legend>
-            <label>
-              Year:{' '}
-              <select
-                onChange={this.handleFilter.bind(this, 'year')}
-                value={'year' in filters ? filters.year : ''}
-              >
-                {years}
-              </select>
-            </label>
-            <label>
-              {' '}
-              Month:{' '}
-              <select
-                onChange={this.handleFilter.bind(this, 'month')}
-                value={'month' in filters ? filters.month : ''}
-              >
-                {months}
-              </select>
-            </label>
-            <label>
-              {' '}
-              Day:{' '}
-              <select
-                onChange={this.handleFilter.bind(this, 'day')}
-                value={'day' in filters ? filters.day : ''}
-              >
-                {days}
-              </select>
-            </label>
-          </fieldset>
-
-          <fieldset>
-            <legend>Teams</legend>
-            <select
-              onChange={this.handleFilter.bind(this, 'opponent')}
-              value={'opponent' in filters ? filters.opponent : ''}
-            >
-              {opponents}
-            </select>
-          </fieldset>
-
-          <fieldset>
-            <legend>Coaches</legend>
-            <label>
-              Notre Dame
-              <select
-                onChange={this.handleFilter.bind(this, 'nd_coach')}
-                value={'nd_coach' in filters ? filters.nd_coach : ''}
-              >
-                {ndCoaches}
-              </select>
-            </label>
-            <label>
-              Opponent
-              <select
-                onChange={this.handleFilter.bind(this, 'opp_coach')}
-                value={'opp_coach' in filters ? filters.opp_coach : ''}
-              >
-                {oppCoaches}
-              </select>
-            </label>
-          </fieldset>
-          <button onClick={this.handleClear.bind(this)}>Start Over</button>
-          <br />
-        </fieldset>
-      </div>
+      <option key={year} value={year}>
+        {year}
+      </option>
     )
-  }
+  })
+  const months = MONTHS.map((month) => (
+    <option key={month} value={month}>
+      {Number.isNaN(parseInt(month)) ? month : month + 1}
+    </option>
+  ))
+  const days = DAYS.map((day) => (
+    <option key={day} value={day}>
+      {day}
+    </option>
+  ))
+
+  const ndCoaches = props.ndCoaches.map((coach) => {
+    // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
+    let by_last_name = `${coach.last_name}, ${[
+      coach.first_name,
+      coach.middle_name,
+      coach.suffix,
+    ]
+      .filter(Boolean)
+      .join(' ')}`
+    let by_first_name = [
+      coach.first_name,
+      coach.middle_name,
+      coach.last_name,
+      coach.suffix,
+    ]
+      .filter(Boolean)
+      .join(' ')
+    return (
+      <option key={by_last_name} value={by_first_name.toLowerCase()}>
+        {by_last_name}
+      </option>
+    )
+  })
+
+  ndCoaches.unshift(<option key="" value="" />)
+
+  const oppCoaches = props.oppCoaches.map((coach) => {
+    // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
+    let by_last_name = `${coach.last_name}, ${[
+      coach.first_name,
+      coach.middle_name,
+      coach.suffix,
+    ]
+      .filter(Boolean)
+      .join(' ')}`
+    let by_first_name = [
+      coach.first_name,
+      coach.middle_name,
+      coach.last_name,
+      coach.suffix,
+    ]
+      .filter(Boolean)
+      .join(' ')
+    return (
+      <option key={by_last_name} value={by_first_name.toLowerCase()}>
+        {by_last_name}
+      </option>
+    )
+  })
+
+  oppCoaches.unshift(<option key="" value="" />)
+
+  const opponents = props.teams.map((team) => (
+    <option key={team.name} value={team.name.toLowerCase()}>
+      {team.name}
+    </option>
+  ))
+
+  opponents.unshift(<option key="" value="" />)
+  const filters = props.filters
+
+  return (
+    <div>
+      <fieldset>
+        <fieldset>
+          <legend>Date</legend>
+          <label>
+            Year:{' '}
+            <select
+              onChange={handleFilter('year')}
+              value={'year' in filters ? filters.year : ''}
+            >
+              {years}
+            </select>
+          </label>
+          <label>
+            {' '}
+            Month:{' '}
+            <select
+              onChange={handleFilter('month')}
+              value={'month' in filters ? filters.month : ''}
+            >
+              {months}
+            </select>
+          </label>
+          <label>
+            {' '}
+            Day:{' '}
+            <select
+              onChange={handleFilter('day')}
+              value={'day' in filters ? filters.day : ''}
+            >
+              {days}
+            </select>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Teams</legend>
+          <select
+            onChange={handleFilter('opponent')}
+            value={'opponent' in filters ? filters.opponent : ''}
+          >
+            {opponents}
+          </select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Coaches</legend>
+          <label>
+            Notre Dame
+            <select
+              onChange={handleFilter('nd_coach')}
+              value={'nd_coach' in filters ? filters.nd_coach : ''}
+            >
+              {ndCoaches}
+            </select>
+          </label>
+          <label>
+            Opponent
+            <select
+              onChange={handleFilter('opp_coach')}
+              value={'opp_coach' in filters ? filters.opp_coach : ''}
+            >
+              {oppCoaches}
+            </select>
+          </label>
+        </fieldset>
+        <button onClick={handleClear}>Start Over</button>
+        <br />
+      </fieldset>
+    </div>
+  )
 }
 
 class GameResultsTable extends React.Component {
@@ -329,7 +322,6 @@ class GameResultsTable extends React.Component {
   }
 
   calculateRecord(games) {
-    console.log('did I get here?')
     // const wins = games.filter(x => x.result === 'W').length
     // const losses = games.filter(x => x.result === 'W').length
 
@@ -433,65 +425,59 @@ class GameResultsTable extends React.Component {
   }
 }
 
-class FilterableGameTable extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleChangedFilter = this.handleChangedFilter.bind(this)
-    this.handleClearFilters = this.handleClearFilters.bind(this)
-    this.handleResultsUpdated = this.handleResultsUpdated.bind(this)
-    this.state = {
-      filters: {},
-      wins: 0,
-      losses: 0,
-      ties: 0,
-    }
-  }
+function FilterableGameTable({props}) {
+  const [state, setState] = React.useState({
+    filters: {},
+    wins: 0,
+    losses: 0,
+    ties: 0,
+  })
 
-  handleChangedFilter(filterKey, filterValue) {
-    const currentFilters = Object.assign({}, this.state.filters)
+  function handleChangedFilter(filterKey, filterValue) {
+    const currentFilters = Object.assign({}, state.filters)
     if (filterValue === '') {
       delete currentFilters[filterKey]
     } else {
       currentFilters[filterKey] = filterValue
     }
-    this.setState({filters: currentFilters})
+    setState({filters: currentFilters})
   }
 
-  handleClearFilters() {
-    const currentFilters = Object.assign({}, this.state.filters)
+  function handleClearFilters() {
+    const currentFilters = Object.assign({}, state.filters)
 
-    // console.log(this.state.filters)
+    // console.log(state.filters)
     // const filters = {}
     Object.keys(currentFilters).forEach((key) => {
       delete currentFilters[key]
     })
-    // this.setState({ filters: filters})
-    this.setState({filters: currentFilters})
+    // setState({ filters: filters})
+    setState({filters: currentFilters})
   }
 
-  handleResultsUpdated(wins, losses, ties) {
-    this.setState({wins: wins, losses: losses, ties: ties})
+  function handleResultsUpdated(wins, losses, ties) {
+    setState({wins: wins, losses: losses, ties: ties})
   }
 
-  render() {
-    return (
-      <div>
-        <SearchBar
-          filters={this.state.filters}
-          onFilterChange={this.handleChangedFilter}
-          onClearFilter={this.handleClearFilters}
-          ndCoaches={this.props.ndCoaches}
-          oppCoaches={this.props.oppCoaches}
-          teams={this.props.teams}
-        />
-        <GameResultsTable
-          games={this.props.games}
-          filters={this.state.filters}
-          onResultsUpdated={this.handleResultsUpdated}
-        />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <SearchBar
+        props={{
+          filters: state.filters,
+          onFilterChange: handleChangedFilter,
+          onClearFilter: handleClearFilters,
+          ndCoaches: props.ndCoaches,
+          oppCoaches: props.oppCoaches,
+          teams: props.teams,
+        }}
+      />
+      <GameResultsTable
+        games={props.games}
+        filters={state.filters}
+        onResultsUpdated={handleResultsUpdated}
+      />
+    </div>
+  )
 }
 
 function App() {
@@ -499,16 +485,15 @@ function App() {
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
 
-  console.log('Here are your coaches')
-  console.log(data)
-
   return (
     <div className="app">
       <FilterableGameTable
-        oppCoaches={data.opponents}
-        ndCoaches={data.nd}
-        teams={data.teams}
-        games={ALL_GAMES}
+        props={{
+          oppCoaches: data.opponents,
+          ndCoaches: data.nd,
+          teams: data.teams,
+          games: ALL_GAMES,
+        }}
       />
     </div>
   )
