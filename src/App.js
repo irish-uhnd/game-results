@@ -80,26 +80,47 @@ const ALL_DATA = gql`
       id
       name
     }
+
+    games: games {
+      id
+      date
+      nd_rank
+      result
+      site
+      ndCoach {
+        id
+        full_name
+      }
+      nd_score
+      opp_score
+      opponent {
+        name
+      }
+      opp_rank
+      opp_final_rank
+      oppCoach {
+        id
+        full_name
+      }
+    }
   }
 `
 
-const DISTINCT_ND_COACHES = [''].concat(
-  [...new Set(ALL_GAMES.map((game) => game.nd_coach))].sort()
-)
-const ND_COACHES = DISTINCT_ND_COACHES.map((name) => ({
-  by_first: name,
-  by_last: name.split(' ').reverse().join(', '),
-})).sort((a, b) => (a.by_last > b.by_last && 1) || -1)
+// const DISTINCT_ND_COACHES = [''].concat(
+//   [...new Set(ALL_GAMES.map((game) => game.nd_coach))].sort()
+// )
+// const ND_COACHES = DISTINCT_ND_COACHES.map((name) => ({
+//   by_first: name,
+//   by_last: name.split(' ').reverse().join(', '),
+// })).sort((a, b) => (a.by_last > b.by_last && 1) || -1)
 
-console.log(DISTINCT_ND_COACHES)
+// const OPP_COACHES = [''].concat(
+//   [...new Set(ALL_GAMES.map((game) => game.opp_coach))].sort()
+// )
 
-const OPP_COACHES = [''].concat(
-  [...new Set(ALL_GAMES.map((game) => game.opp_coach))].sort()
-)
-
-const OPPONENTS = [''].concat(
-  [...new Set(ALL_GAMES.map((game) => game.opponent))].sort()
-)
+// const OPPONENTS = [''].concat(
+//   [...new Set(ALL_GAMES.map((game) => game.opponent))].sort()
+// )
 function SearchBar({props}) {
   function handleFilter(filterKey) {
     // console.log(`Set filter type to: ${filterKey}`);
@@ -111,9 +132,15 @@ function SearchBar({props}) {
     props.onClearFilter()
   }
 
+  console.log('current year is')
+  console.log(props)
+  console.log(props.year)
+
   const MONTHS = [''].concat([...Array(12).keys()])
-  const DAYS = [''].concat([...Array(30).keys()].slice(1))
-  const YEARS = [''].concat([...Array(2021).keys()].slice(1887).reverse())
+  const DAYS = [''].concat([...Array(32).keys()].slice(1))
+  const YEARS = [''].concat(
+    [...Array(props.year + 1).keys()].slice(1887).reverse()
+  )
 
   const years = YEARS.map((year) => {
     return (
@@ -304,17 +331,17 @@ class GameResultsTable extends React.Component {
     }
 
     if ('nd_coach' in filters) {
-      let coach = game.nd_coach.toLowerCase()
+      let coach = game.ndCoach.full_name.toLowerCase()
       if (coach !== filters.nd_coach) return false
     }
 
     if ('opp_coach' in filters) {
-      let coach = game.opp_coach.toLowerCase()
+      let coach = game.oppCoach.full_name.toLowerCase()
       if (coach !== filters.opp_coach) return false
     }
 
     if ('opponent' in filters) {
-      let opponent = game.opponent.toLowerCase()
+      let opponent = game.opponent.name.toLowerCase()
       if (opponent !== filters.opponent) return false
     }
 
@@ -374,15 +401,15 @@ class GameResultsTable extends React.Component {
 
     matchingGames.forEach((game) => {
       resultRows.push(
-        <tr key={game.date}>
+        <tr key={game.id}>
           <td>{game.date}</td>
           <td>{game.result}</td>
           <td>{game.site}</td>
-          <td>{game.nd_coach}</td>
-          <td>{game.opp_coach}</td>
+          <td>{game.ndCoach.full_name}</td>
+          <td>{game.oppCoach.full_name}</td>
           <td>{game.nd_score}</td>
           <td>{game.opp_score}</td>
-          <td>{game.opponent}</td>
+          <td>{game.opponent.name}</td>
         </tr>
       )
     })
@@ -390,12 +417,16 @@ class GameResultsTable extends React.Component {
     this.calculateRecord(matchingGames)
 
     // setInterval(() => this.props.onResultsUpdated(1, 2, 3), 0)
+    let winningPercentage = this.wins / (this.wins + this.losses + this.ties)
+    winningPercentage = winningPercentage ? winningPercentage : 0.0
 
     return (
       <div className="results">
         <div className="fieldset">
           <fieldset>
-            <legend>Results</legend>
+            <legend>
+              Results ({Number.parseFloat(winningPercentage).toFixed(3)})
+            </legend>
             <span>Wins: {this.wins} </span>
             <span>Losses: {this.losses} </span>
             <span>Ties: {this.ties} </span>
@@ -426,6 +457,9 @@ class GameResultsTable extends React.Component {
 }
 
 function FilterableGameTable({props}) {
+  const lastGame = props.games.at(-1)
+  const currentYear = new Date(lastGame.date).getFullYear()
+
   const [state, setState] = React.useState({
     filters: {},
     wins: 0,
@@ -469,6 +503,7 @@ function FilterableGameTable({props}) {
           ndCoaches: props.ndCoaches,
           oppCoaches: props.oppCoaches,
           teams: props.teams,
+          year: currentYear,
         }}
       />
       <GameResultsTable
@@ -492,7 +527,7 @@ function App() {
           oppCoaches: data.opponents,
           ndCoaches: data.nd,
           teams: data.teams,
-          games: ALL_GAMES,
+          games: data.games,
         }}
       />
     </div>
