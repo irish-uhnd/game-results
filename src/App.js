@@ -223,7 +223,7 @@ function SearchBar({props}) {
 
   return (
     <div>
-      <fieldset>
+      <fieldset className="top-level">
         <fieldset>
           <legend>Date</legend>
           <label>
@@ -288,7 +288,11 @@ function SearchBar({props}) {
             </select>
           </label>
         </fieldset>
-        <button onClick={handleClear}>Start Over</button>
+        <div className="start-over">
+          <button className="btn btn-gray" onClick={handleClear}>
+            Start Over
+          </button>
+        </div>
         <br />
       </fieldset>
     </div>
