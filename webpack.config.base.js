@@ -35,6 +35,11 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
         exclude: /node_modules/,
       },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: ['file-loader'],
+        exclude: /node_modules/,
+      },
     ],
   },
   plugins: [
