@@ -222,7 +222,84 @@ function SearchBar({props}) {
   const filters = props.filters
 
   return (
-    <div>
+    <div className="search-bar">
+      <header className="search-bar-header">
+        <h1>Notre Dame Football All-Time Game Results</h1>
+      </header>
+      <main>
+        <div className="date--year">
+          <label>
+            Year:{' '}
+            <select
+              onChange={handleFilter('year')}
+              value={'year' in filters ? filters.year : ''}
+            >
+              {years}
+            </select>
+          </label>
+        </div>
+        <div className="date--month">
+          <label>
+            {' '}
+            Month:{' '}
+            <select
+              onChange={handleFilter('month')}
+              value={'month' in filters ? filters.month : ''}
+            >
+              {months}
+            </select>
+          </label>
+        </div>
+        <div className="date--day">
+          <label>
+            {' '}
+            Day:{' '}
+            <select
+              onChange={handleFilter('day')}
+              value={'day' in filters ? filters.day : ''}
+            >
+              {days}
+            </select>
+          </label>
+        </div>
+        <div className="opponent">
+          <label>
+            {' '}
+            Opponent:{' '}
+            <select
+              onChange={handleFilter('opponent')}
+              value={'opponent' in filters ? filters.opponent : ''}
+            >
+              {opponents}
+            </select>
+          </label>
+        </div>
+        <div className="coach--nd">
+          <label>
+            Notre Dame:{' '}
+            <select
+              onChange={handleFilter('nd_coach')}
+              value={'nd_coach' in filters ? filters.nd_coach : ''}
+            >
+              {ndCoaches}
+            </select>
+          </label>
+        </div>
+        <div className="coach--opponent">
+          <label>
+            Opponent:{' '}
+            <select
+              onChange={handleFilter('opp_coach')}
+              value={'opp_coach' in filters ? filters.opp_coach : ''}
+            >
+              {oppCoaches}
+            </select>
+          </label>
+        </div>
+      </main>
+      <section>section</section>
+      <footer>footer</footer>
+
       <fieldset className="top-level">
         <fieldset>
           <legend>Date</legend>
@@ -437,11 +514,20 @@ class GameResultsTable extends React.Component {
           </fieldset>
         </div>
         <div className="results-table">
+          {/* <div className="game-list-2">
+            <div className="column">1</div>
+            <div className="column">2</div>
+            <div className="column">3</div>
+            <div className="column">4</div>
+            <div className="column">5</div>
+            <div className="column">6</div>
+            {resultRows}
+          </div> */}
           <div className="game-list">
             <table>
               <thead>
                 <tr>
-                  <th className="header">Date</th>
+                  <th>Date</th>
                   <th>Result</th>
                   <th>Site</th>
                   <th>ND Coach</th>
@@ -525,7 +611,7 @@ function App() {
   if (error) return `Error! ${error.message}`
 
   return (
-    <div className="app">
+    <div className="filterable-game-table">
       <FilterableGameTable
         props={{
           oppCoaches: data.opponents,

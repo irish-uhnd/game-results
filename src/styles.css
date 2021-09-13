@@ -1,7 +1,7 @@
-.App {
+/* .App {
   font-family: sans-serif;
   text-align: center;
-}
+} */
 
 * {
   margin: 0;
@@ -10,12 +10,35 @@
 }
 
 body {
-  font-family: 'Lato';
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
+  font-size: 14px;
   color: black;
   padding: 30px;
-  line-height: 1.5;
+  line-height: 1.7;
   height: 95vh;
+}
+
+.filterable-game-table {
+  background-image: linear-gradient(to right bottom, #aebcdfd1, #81cafad1),
+    url(../img/notre_dame_usc_2019.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 14px;
+  border: solid;
+  border-radius: 30px;
+  /* clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); */
+}
+
+.search-bar-header h1 {
+  text-align: center;
+}
+
+.search-bar {
+  /* background-image: url(../img/notre_dame_usc_2019.jpg); */
+  /* background-image: linear-gradient(to right bottom, #7ed56fd1, #28b485d1),
+    url(../img/notre_dame_usc_2019.jpg); */
 }
 
 .results-table {
@@ -33,15 +56,15 @@ body {
 }
 
 .results .fieldset span {
-  color: green;
+  color: white;
   text-align: center;
   padding: 15px;
 }
 
 .results-table .game-list {
-  color: blue;
+  color: black;
   position: absolute;
-  top: 0px;
+  top: 14px;
   left: 50%;
   transform: translate(-50%);
 }
@@ -51,10 +74,10 @@ body {
   width: 85vw;
 }
 
-.game-list table .header {
-  color: red;
+/* .game-list table .header {
+  color: white;
   text-align: left;
-}
+} */
 
 .start-over {
   text-align: center;
@@ -83,4 +106,9 @@ body {
 .btn-gray {
   background-color: gray;
   color: white;
+}
+
+.game-list-2 .column {
+  float: left;
+  width: 16.67%;
 }
