@@ -3,31 +3,44 @@
   text-align: center;
 } */
 
-* {
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
 }
 
 body {
   font-family: 'Lato', sans-serif;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 1.4rem;
   color: black;
-  padding: 30px;
+  padding: 3rem;
   line-height: 1.7;
   height: 95vh;
+  box-sizing: border-box;
 }
 
 .filterable-game-table {
-  background-image: linear-gradient(to right bottom, #aebcdfd1, #81cafad1),
+  /* background-image: linear-gradient(to right bottom, #aebcdfd1, #81cafad1),
+    url(../img/notre_dame_usc_2019.jpg); */
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(184, 223, 253, 0.95) 80%,
+      rgba(130, 205, 255, 0.85)
+    ),
     url(../img/notre_dame_usc_2019.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 14px;
+  padding: 1.4rem;
   border: solid;
-  border-radius: 30px;
+  border-radius: 3rem;
   /* clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); */
 }
 
@@ -58,13 +71,13 @@ body {
 .results .fieldset span {
   color: white;
   text-align: center;
-  padding: 15px;
+  padding: 1.5rem;
 }
 
 .results-table .game-list {
   color: black;
   position: absolute;
-  top: 14px;
+  top: 1.4rem;
   left: 50%;
   transform: translate(-50%);
 }
@@ -81,26 +94,26 @@ body {
 
 .start-over {
   text-align: center;
-  padding-top: 15px;
+  padding-top: 1.5rem;
 }
 
 .btn {
   text-transform: uppercase;
   text-decoration: none;
-  padding: 5px 20px;
-  border-radius: 100px;
+  padding: 0.5rem 2rem;
+  border-radius: 10rem;
   display: inline-block;
   transition: all 0.1s;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-0.2rem);
+  box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.2);
 }
 
 .btn:active {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.2);
 }
 
 .btn-gray {
