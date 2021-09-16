@@ -13,6 +13,7 @@
 
 html {
   font-size: 62.5%;
+  /* font-size: 10px; */
 }
 
 body {
@@ -39,8 +40,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   padding: 1.4rem;
-  border: solid;
-  border-radius: 3rem;
+  /* border: 1px solid skyblue; */
+  border-radius: 0.8rem;
   /* clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); */
 }
 

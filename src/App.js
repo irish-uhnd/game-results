@@ -81,7 +81,7 @@ const ALL_DATA = gql`
       name
     }
 
-    games: games {
+    games: games(order_by: {date: asc}) {
       id
       date
       nd_rank
@@ -131,10 +131,6 @@ function SearchBar({props}) {
   function handleClear(e) {
     props.onClearFilter()
   }
-
-  console.log('current year is')
-  console.log(props)
-  console.log(props.year)
 
   const MONTHS = [''].concat([...Array(12).keys()])
   const DAYS = [''].concat([...Array(32).keys()].slice(1))
@@ -548,6 +544,9 @@ class GameResultsTable extends React.Component {
 
 function FilterableGameTable({props}) {
   const lastGame = props.games.at(-1)
+  console.log('last game is')
+  console.log(lastGame)
+  console.log(props)
   const currentYear = new Date(lastGame.date).getFullYear()
 
   const [state, setState] = React.useState({
