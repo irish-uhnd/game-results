@@ -1,0 +1,38 @@
+.row {
+  // border: 2px solid black;
+  margin: 0 auto;
+  @include clearfix;
+
+  [class^='col-'] {
+    // background-color: orangered;
+    float: left;
+    // border: 1px solid green;
+    // margin-right: $gutter-horizontal;
+    &:first-child {
+      padding-left: 40rem;
+    }
+
+    &:last-child {
+      padding-right: 40rem;
+      text-align: right;
+    }
+    // &:not(:last-child) {
+    //   margin-right: $gutter-horizontal;
+    // }
+  }
+
+  .col-1-of-2 {
+    width: calc((100% - #{$gutter-horizontal}) / 2);
+  }
+}
+
+// &:col-1-of-4 {
+// }
+
+// &--notre-dame {
+//   float: left;
+// }
+
+// &--opponent {
+//   float: right;
+// }

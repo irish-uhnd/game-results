@@ -259,45 +259,53 @@ function SearchBar({props}) {
             </select>
           </label>
         </div>
-        <div className="opponent">
-          <label>
-            {' '}
-            Opponent:{' '}
-            <select
-              onChange={handleFilter('opponent')}
-              value={'opponent' in filters ? filters.opponent : ''}
-            >
-              {opponents}
-            </select>
-          </label>
-        </div>
-        <div className="coach--nd">
-          <label>
-            Notre Dame:{' '}
-            <select
-              onChange={handleFilter('nd_coach')}
-              value={'nd_coach' in filters ? filters.nd_coach : ''}
-            >
-              {ndCoaches}
-            </select>
-          </label>
-        </div>
-        <div className="coach--opponent">
-          <label>
-            Opponent:{' '}
-            <select
-              onChange={handleFilter('opp_coach')}
-              value={'opp_coach' in filters ? filters.opp_coach : ''}
-            >
-              {oppCoaches}
-            </select>
-          </label>
-        </div>
+        <section className="section">
+          <div className="row">
+            <div className="col-1-of-2">
+              <div>
+                <label>
+                  Notre Dame:{' '}
+                  <select
+                    onChange={handleFilter('nd_coach')}
+                    value={'nd_coach' in filters ? filters.nd_coach : ''}
+                  >
+                    {ndCoaches}
+                  </select>
+                </label>
+              </div>
+            </div>
+            <div className="col-1-of-2">
+              <div>
+                <label>
+                  {' '}
+                  Opponent:{' '}
+                  <select
+                    onChange={handleFilter('opponent')}
+                    value={'opponent' in filters ? filters.opponent : ''}
+                  >
+                    {opponents}
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label>
+                  Opponent Coach: &nbsp;
+                  <select
+                    onChange={handleFilter('opp_coach')}
+                    value={'opp_coach' in filters ? filters.opp_coach : ''}
+                  >
+                    {oppCoaches}
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <section>section</section>
       <footer>footer</footer>
 
-      <fieldset className="top-level">
+      {/* <fieldset className="top-level">
         <fieldset>
           <legend>Date</legend>
           <label>
@@ -368,7 +376,13 @@ function SearchBar({props}) {
           </button>
         </div>
         <br />
-      </fieldset>
+      </fieldset> */}
+      <div className="start-over">
+        <button className="btn btn--color" onClick={handleClear}>
+          Start Over
+        </button>
+      </div>
+      <br />
     </div>
   )
 }
@@ -511,15 +525,6 @@ class GameResultsTable extends React.Component {
           </fieldset>
         </div>
         <div className="results-table">
-          {/* <div className="game-list-2">
-            <div className="column">1</div>
-            <div className="column">2</div>
-            <div className="column">3</div>
-            <div className="column">4</div>
-            <div className="column">5</div>
-            <div className="column">6</div>
-            {resultRows}
-          </div> */}
           <div className="game-list">
             <table>
               <thead>

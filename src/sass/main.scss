@@ -9,16 +9,7 @@
 @import 'components/game_table';
 @import 'components/game_results';
 @import 'components/game_results_table';
-// @import 'layout/header';
+@import 'layout/grid';
+@import 'layout/header';
 // @import 'layout/grid';
 // @import 'pages/home';
-
-/* .game-list table .header {
-  color: white;
-  text-align: left;
-} */
-
-.game-list-2 .column {
-  float: left;
-  width: 16.67%;
-}
