@@ -1,7 +1,8 @@
 import React from 'react'
 import {hot} from 'react-hot-loader'
 // import ALL_GAMES from './gamelist_full'
-import './styles.css'
+// import './styles.css'
+import './sass/main.scss'
 // import './tailwind.css'
 import ALL_GAMES from './data/games3.json'
 // const ALL_GAMES = JSON.parse(json);
@@ -362,7 +363,7 @@ function SearchBar({props}) {
           </label>
         </fieldset>
         <div className="start-over">
-          <button className="btn btn-gray" onClick={handleClear}>
+          <button className="btn btn--color" onClick={handleClear}>
             Start Over
           </button>
         </div>

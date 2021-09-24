@@ -1,0 +1,9 @@
+// A block element with all floated children will have 0 height.  This appends a psuedo element ater the div
+// which will clear the floats.
+@mixin clearfix {
+  &::after {
+    content: ''; // must specify content, or psuedo element will not appear on the page
+    display: table; // standard for clearfix
+    clear: both; // this actually clears the floats (left and right)
+  }
+}

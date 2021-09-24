@@ -1,0 +1,16 @@
+.results {
+  .fieldset {
+    text-align: center;
+  }
+
+  .fieldset legend {
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 auto;
+  }
+  .fieldset span {
+    color: $color-win-loss-tie;
+    text-align: center;
+    padding: 1.5rem;
+  }
+}

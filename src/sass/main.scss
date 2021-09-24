@@ -1,0 +1,24 @@
+@import 'abstracts/functions';
+@import 'abstracts/mixins';
+@import 'abstracts/variables';
+@import 'base/animations'; // no underscore, or file extension needed
+@import 'base/base';
+@import 'base/typography';
+@import 'base/utilities';
+@import 'components/button';
+@import 'components/game_table';
+@import 'components/game_results';
+@import 'components/game_results_table';
+// @import 'layout/header';
+// @import 'layout/grid';
+// @import 'pages/home';
+
+/* .game-list table .header {
+  color: white;
+  text-align: left;
+} */
+
+.game-list-2 .column {
+  float: left;
+  width: 16.67%;
+}

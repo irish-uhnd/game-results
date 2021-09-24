@@ -1,0 +1,17 @@
+.filterable-game-table {
+  /* background-image: linear-gradient(to right bottom, #aebcdfd1, #81cafad1),
+    url(../img/notre_dame_usc_2019.jpg); */
+  background-image: linear-gradient(
+      to right bottom,
+      rgba($background-color-light, 0.95) 80%,
+      rgba($background-color-dark, 0.85)
+    ),
+    url($background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 1.4rem;
+  /* border: 1px solid skyblue; */
+  border-radius: 0.8rem;
+  /* clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); */
+}

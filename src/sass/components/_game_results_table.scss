@@ -1,0 +1,16 @@
+.results-table {
+  position: relative;
+
+  .game-list {
+    color: $color-result-set-rows; // adsf
+    position: absolute;
+    top: 1.4rem;
+    left: 50%;
+    transform: translate(-50%);
+
+    table {
+      text-align: left;
+      width: 85vw;
+    }
+  }
+}

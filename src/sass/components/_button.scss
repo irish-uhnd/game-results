@@ -1,0 +1,28 @@
+.start-over {
+  text-align: center;
+  padding-top: 1.5rem;
+}
+
+.btn {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.5rem 2rem;
+  border-radius: 10rem;
+  display: inline-block;
+  transition: all 0.1s;
+
+  &:hover {
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.2);
+  }
+
+  &:active {
+    transform: translateY(-0.1rem);
+    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.2);
+  }
+
+  &--color {
+    background-color: $color-btn-background;
+    color: $color-btn-text;
+  }
+}
