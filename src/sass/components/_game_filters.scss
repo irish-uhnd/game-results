@@ -1,0 +1,13 @@
+[class^='filters-date-'] {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.filters-date {
+  text-align: center;
+  // margin: 1rem;
+
+  select {
+    margin: 2rem 1rem 1rem 0.15rem;
+  }
+}
