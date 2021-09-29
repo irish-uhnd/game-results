@@ -1,6 +1,7 @@
 .row {
   // border: 2px solid black;
   margin: 0 auto;
+  position: relative;
   @include clearfix;
 
   [class^='col-'] {
@@ -9,11 +10,11 @@
     // border: 1px solid green;
     // margin-right: $gutter-horizontal;
     &:first-child {
-      padding-left: 40rem;
+      padding-left: 45rem;
     }
 
     &:last-child {
-      padding-right: 40rem;
+      padding-right: 45rem;
       text-align: right;
     }
     // &:not(:last-child) {
@@ -23,6 +24,12 @@
 
   .col-1-of-2 {
     width: calc((100% - #{$gutter-horizontal}) / 2);
+    border: 1px solid black;
+  }
+
+  .col-1-of-1 {
+    // width: calc((100% - #{$gutter-horizontal}) / 1);
+    border: 1px solid black;
   }
 }
 

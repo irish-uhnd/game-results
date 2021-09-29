@@ -218,46 +218,59 @@ function SearchBar({props}) {
   opponents.unshift(<option key="" value="" />)
   const filters = props.filters
 
+  const results = [
+    {name: '', abbrev: ''},
+    {name: 'Win', abbrev: 'w'},
+    {name: 'Loss', abbrev: 'l'},
+    {name: 'Tie', abbrev: 't'},
+  ].map((result) => (
+    <option key={result.name} value={result.abbrev}>
+      {result.name}
+    </option>
+  ))
+
   return (
     <div className="search-bar">
       <header className="search-bar-header">
         <h1>Notre Dame Football All-Time Game Results</h1>
       </header>
       <main>
-        <div className="date--year">
-          <label>
-            Year:{' '}
-            <select
-              onChange={handleFilter('year')}
-              value={'year' in filters ? filters.year : ''}
-            >
-              {years}
-            </select>
-          </label>
-        </div>
-        <div className="date--month">
-          <label>
-            {' '}
-            Month:{' '}
-            <select
-              onChange={handleFilter('month')}
-              value={'month' in filters ? filters.month : ''}
-            >
-              {months}
-            </select>
-          </label>
-        </div>
-        <div className="date--day">
-          <label>
-            {' '}
-            Day:{' '}
-            <select
-              onChange={handleFilter('day')}
-              value={'day' in filters ? filters.day : ''}
-            >
-              {days}
-            </select>
-          </label>
+        <div className="filters-date">
+          <div className="filters-date--year">
+            <label>
+              Year:{' '}
+              <select
+                onChange={handleFilter('year')}
+                value={'year' in filters ? filters.year : ''}
+              >
+                {years}
+              </select>
+            </label>
+          </div>
+          <div className="filters-date--month">
+            <label>
+              {' '}
+              Month:{' '}
+              <select
+                onChange={handleFilter('month')}
+                value={'month' in filters ? filters.month : ''}
+              >
+                {months}
+              </select>
+            </label>
+          </div>
+          <div className="filters-date--day">
+            <label>
+              {' '}
+              Day:{' '}
+              <select
+                onChange={handleFilter('day')}
+                value={'day' in filters ? filters.day : ''}
+              >
+                {days}
+              </select>
+            </label>
+          </div>
         </div>
         <section className="section">
           <div className="row">
@@ -298,6 +311,17 @@ function SearchBar({props}) {
                   </select>
                 </label>
               </div>
+            </div>
+            <div className="col-1-of-1">
+              <label>
+                Result: &nbsp;
+                <select
+                  onChange={handleFilter('result')}
+                  value={'result' in filters ? filters.result : ''}
+                >
+                  {results}
+                </select>
+              </label>
             </div>
           </div>
         </section>
@@ -435,6 +459,11 @@ class GameResultsTable extends React.Component {
     if ('opponent' in filters) {
       let opponent = game.opponent.name.toLowerCase()
       if (opponent !== filters.opponent) return false
+    }
+
+    if ('result' in filters) {
+      let result = game.result.toLowerCase()
+      if (result !== filters.result) return false
     }
 
     return true
