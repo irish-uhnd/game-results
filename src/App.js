@@ -275,59 +275,61 @@ function SearchBar({props}) {
         <section className="section">
           <div className="row">
             <div className="col-1-of-2">
-              <div>
-                <label>
-                  Notre Dame:{' '}
-                  <select
-                    onChange={handleFilter('nd_coach')}
-                    value={'nd_coach' in filters ? filters.nd_coach : ''}
-                  >
-                    {ndCoaches}
-                  </select>
-                </label>
+              <div className="filters__notre-dame">
+                <div className="u-center-div-small">
+                  <label>
+                    Result: &nbsp;
+                    <select
+                      onChange={handleFilter('result')}
+                      value={'result' in filters ? filters.result : ''}
+                    >
+                      {results}
+                    </select>
+                  </label>
+                </div>
+                <div className="u-center-div-medium">
+                  <label>
+                    Notre Dame Coach:{' '}
+                    <select
+                      onChange={handleFilter('nd_coach')}
+                      value={'nd_coach' in filters ? filters.nd_coach : ''}
+                    >
+                      {ndCoaches}
+                    </select>
+                  </label>
+                </div>
               </div>
             </div>
             <div className="col-1-of-2">
-              <div>
-                <label>
-                  {' '}
-                  Opponent:{' '}
-                  <select
-                    onChange={handleFilter('opponent')}
-                    value={'opponent' in filters ? filters.opponent : ''}
-                  >
-                    {opponents}
-                  </select>
-                </label>
+              <div className="filters__opponents">
+                <div>
+                  <label>
+                    {' '}
+                    Opponent:{' '}
+                    <select
+                      onChange={handleFilter('opponent')}
+                      value={'opponent' in filters ? filters.opponent : ''}
+                    >
+                      {opponents}
+                    </select>
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    Opponent Coach: &nbsp;
+                    <select
+                      onChange={handleFilter('opp_coach')}
+                      value={'opp_coach' in filters ? filters.opp_coach : ''}
+                    >
+                      {oppCoaches}
+                    </select>
+                  </label>
+                </div>
               </div>
-              <div>
-                <label>
-                  Opponent Coach: &nbsp;
-                  <select
-                    onChange={handleFilter('opp_coach')}
-                    value={'opp_coach' in filters ? filters.opp_coach : ''}
-                  >
-                    {oppCoaches}
-                  </select>
-                </label>
-              </div>
-            </div>
-            <div className="col-1-of-1">
-              <label>
-                Result: &nbsp;
-                <select
-                  onChange={handleFilter('result')}
-                  value={'result' in filters ? filters.result : ''}
-                >
-                  {results}
-                </select>
-              </label>
             </div>
           </div>
         </section>
       </main>
-      <section>section</section>
-      <footer>footer</footer>
 
       {/* <fieldset className="top-level">
         <fieldset>
