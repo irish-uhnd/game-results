@@ -33,15 +33,15 @@ import {isTaggedTemplateExpression} from 'typescript'
 
 const httpLink = createHttpLink({
   // uri: 'https://tidy-basilisk-31.hasura.app/v1/graphql',
-  uri: 'http://localhost:8080/v1/graphql',
+  // uri: 'http://localhost:8080/v1/graphql',
+  uri: process.env.HASURA_GRAPHQL_URL,
 })
 
 const authLink = setContext((_, {headers}) => {
   return {
     headers: {
       ...headers,
-      'x-hasura-admin-secret':
-        'a5SnxJlRf2ASghYAb1i30PvOcbTIiVpcIeqX7JAVO9U9CVYAU1Ilqi14lSWL2P5h',
+      // 'x-hasura-admin-secret': process.env.X_HASURA_ADMIN_SECRET,
     },
   }
 })
@@ -104,6 +104,10 @@ const ALL_DATA = gql`
         full_name
       }
     }
+
+    sites: games(distinct_on: site) {
+      site
+    }
   }
 `
 
@@ -124,8 +128,8 @@ const ALL_DATA = gql`
 // )
 function SearchBar({props}) {
   function handleFilter(filterKey) {
-    // console.log(`Set filter type to: ${filterKey}`);
-    // console.log(`Set filter value to ${e.target.value}`);
+    // console.log(`Set filter type to: ${filterKey}`)
+    // console.log(`Set filter value to ${e.target.value}`)
     return (e) => props.onFilterChange(filterKey, e.target.value)
   }
 
@@ -156,6 +160,15 @@ function SearchBar({props}) {
       {day}
     </option>
   ))
+
+  const sites = props.sites.map((site) => {
+    return (
+      <option key={site.site} value={site.site.toLowerCase()}>
+        {site.site}
+      </option>
+    )
+  })
+  sites.unshift(<option key="" value="" />)
 
   const ndCoaches = props.ndCoaches.map((coach) => {
     // let by_last_name = `${coach.last_name}, ${coach.first_name} ${coach.middle_name} ${coach.suffix}`
@@ -271,6 +284,18 @@ function SearchBar({props}) {
               </select>
             </label>
           </div>
+        </div>
+        <div className="filters-site">
+          <label>
+            {' '}
+            Site:{' '}
+            <select
+              onChange={handleFilter('site')}
+              value={'site' in filters ? filters.site : ''}
+            >
+              {sites}
+            </select>
+          </label>
         </div>
         <section className="section">
           <div className="row">
@@ -468,6 +493,11 @@ class GameResultsTable extends React.Component {
       if (result !== filters.result) return false
     }
 
+    if ('site' in filters) {
+      let site = game.site.toLowerCase()
+      if (site !== filters.site) return false
+    }
+
     return true
   }
 
@@ -629,6 +659,7 @@ function FilterableGameTable({props}) {
           ndCoaches: props.ndCoaches,
           oppCoaches: props.oppCoaches,
           teams: props.teams,
+          sites: props.sites,
           year: currentYear,
         }}
       />
@@ -646,6 +677,9 @@ function App() {
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
 
+  console.log('your data')
+  console.log(data)
+
   return (
     <div className="filterable-game-table">
       <FilterableGameTable
@@ -654,6 +688,7 @@ function App() {
           ndCoaches: data.nd,
           teams: data.teams,
           games: data.games,
+          sites: data.sites,
         }}
       />
     </div>
