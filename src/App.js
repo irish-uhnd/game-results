@@ -229,7 +229,7 @@ function SearchBar({props}) {
     </option>
   ))
 
-  opponents.unshift(< key="" value="" />)
+  opponents.unshift(<option key="" value="" />)
   const filters = props.filters
 
   const results = [
