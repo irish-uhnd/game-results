@@ -42,7 +42,6 @@ const authLink = setContext((_, {headers}) => {
   return {
     headers: {
       ...headers,
-      // 'x-hasura-admin-secret': process.env.X_HASURA_ADMIN_SECRET,
     },
   }
 })
