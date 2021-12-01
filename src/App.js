@@ -248,7 +248,7 @@ function SearchBar({props}) {
       {b}
     </option>
   ))
-  vacated.unshift(<option key="" value="" />>)
+  vacated.unshift(<option key="" value="" />)
 
   return (
     <div className="search-bar">
