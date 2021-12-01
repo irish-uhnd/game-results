@@ -229,7 +229,7 @@ function SearchBar({props}) {
     </option>
   ))
 
-  opponents.unshift(<option key="" value="" />)
+  opponents.unshift(< key="" value="" />)
   const filters = props.filters
 
   const results = [
@@ -242,6 +242,13 @@ function SearchBar({props}) {
       {result.name}
     </option>
   ))
+
+  const vacated = ['True', 'False'].map((b) => (
+    <option key={b} value={b.toLowerCase()}>
+      {b}
+    </option>
+  ))
+  vacated.unshift(<option key="" value="" />>)
 
   return (
     <div className="search-bar">
@@ -295,6 +302,18 @@ function SearchBar({props}) {
               value={'site' in filters ? filters.site : ''}
             >
               {sites}
+            </select>
+          </label>
+        </div>
+        <div className="filters-vacated">
+          <label>
+            {' '}
+            Include BK's Vacated Wins:{' '}
+            <select
+              onChange={handleFilter('vacate')}
+              value={'vacate' in filters ? filters.vacate : ''}
+            >
+              {vacated}
             </select>
           </label>
         </div>
@@ -499,6 +518,14 @@ class GameResultsTable extends React.Component {
       if (site !== filters.site) return false
     }
 
+    if ('vacate' in filters && filters.vacate == 'false') {
+      let year = gameDate.getFullYear()
+      let result = game.result.toLowerCase()
+      if ((year == '2012' || year == '2013') && result == 'w') {
+        return false
+      }
+    }
+
     return true
   }
 
@@ -677,9 +704,6 @@ function App() {
   const {loading, error, data} = useQuery(ALL_DATA)
   if (loading) return 'Loading...'
   if (error) return `Error! ${error.message}`
-
-  console.log('your data')
-  console.log(data)
 
   return (
     <div className="filterable-game-table">
