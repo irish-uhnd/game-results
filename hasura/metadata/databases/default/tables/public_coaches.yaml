@@ -8,3 +8,19 @@ computed_fields:
       name: coach_full_name
       schema: public
   name: full_name
+select_permissions:
+- permission:
+    columns:
+    - id
+    - first_name
+    - middle_name
+    - last_name
+    - created_at
+    - updated_at
+    - suffix
+    - is_notre_dame
+    - is_opponent
+    computed_fields:
+    - full_name
+    filter: {}
+  role: anonymous
