@@ -34,8 +34,8 @@ import {isTaggedTemplateExpression} from 'typescript'
 const httpLink = createHttpLink({
   // uri: 'https://tidy-basilisk-31.hasura.app/v1/graphql',
   // uri: 'http://localhost:8080/v1/graphql',
-  // uri: process.env.HASURA_GRAPHQL_URL,
-  uri: 'https://bold-dragon-46.hasura.app/v1/graphql',
+  uri: process.env.HASURA_GRAPHQL_URL,
+  // uri: 'https://bold-dragon-46.hasura.app/v1/graphql',
 })
 
 const authLink = setContext((_, {headers}) => {
@@ -249,6 +249,15 @@ function SearchBar({props}) {
   ))
   vacated.unshift(<option key="" value="" />)
 
+  const wonBy = [...Array(131).keys()]
+    .map((i) => 80 - i)
+    .map((i) => (
+      <option key={i} value={i}>
+        {i}
+      </option>
+    ))
+  wonBy.unshift(<option key="" value="" />)
+
   return (
     <div className="search-bar">
       <header className="search-bar-header">
@@ -316,59 +325,74 @@ function SearchBar({props}) {
             </select>
           </label>
         </div>
+        <div className="filters-result">
+          <label>
+            Result: &nbsp;
+            <select
+              onChange={handleFilter('result')}
+              value={'result' in filters ? filters.result : ''}
+            >
+              {results}
+            </select>
+          </label>
+        </div>
+        <div className="filters-nd-coach">
+          <label>
+            Notre Dame Coach:{' '}
+            <select
+              onChange={handleFilter('nd_coach')}
+              value={'nd_coach' in filters ? filters.nd_coach : ''}
+            >
+              {ndCoaches}
+            </select>
+          </label>
+        </div>
+        <div className="filters-opponent">
+          <label>
+            {' '}
+            Opponent:{' '}
+            <select
+              onChange={handleFilter('opponent')}
+              value={'opponent' in filters ? filters.opponent : ''}
+            >
+              {opponents}
+            </select>
+          </label>
+        </div>
+        <div className="filters-opponent-coach">
+          <label>
+            Opponent Coach: &nbsp;
+            <select
+              onChange={handleFilter('opp_coach')}
+              value={'opp_coach' in filters ? filters.opp_coach : ''}
+            >
+              {oppCoaches}
+            </select>
+          </label>
+        </div>
+        <div className="filters-won-by">
+          <label>
+            Won/lost by at least: &nbsp;
+            <select
+              onChange={handleFilter('won_by')}
+              value={'won_by' in filters ? filters.won_by : ''}
+            >
+              {wonBy}
+            </select>
+          </label>
+        </div>
         <section className="section">
           <div className="row">
             <div className="col-1-of-2">
               <div className="filters__notre-dame">
-                <div className="u-center-div-small">
-                  <label>
-                    Result: &nbsp;
-                    <select
-                      onChange={handleFilter('result')}
-                      value={'result' in filters ? filters.result : ''}
-                    >
-                      {results}
-                    </select>
-                  </label>
-                </div>
-                <div className="u-center-div-medium">
-                  <label>
-                    Notre Dame Coach:{' '}
-                    <select
-                      onChange={handleFilter('nd_coach')}
-                      value={'nd_coach' in filters ? filters.nd_coach : ''}
-                    >
-                      {ndCoaches}
-                    </select>
-                  </label>
-                </div>
+                <div className="u-center-div-small"></div>
+                <div className="u-center-div-medium"></div>
               </div>
             </div>
             <div className="col-1-of-2">
               <div className="filters__opponents">
-                <div>
-                  <label>
-                    {' '}
-                    Opponent:{' '}
-                    <select
-                      onChange={handleFilter('opponent')}
-                      value={'opponent' in filters ? filters.opponent : ''}
-                    >
-                      {opponents}
-                    </select>
-                  </label>
-                </div>
-                <div>
-                  <label>
-                    Opponent Coach: &nbsp;
-                    <select
-                      onChange={handleFilter('opp_coach')}
-                      value={'opp_coach' in filters ? filters.opp_coach : ''}
-                    >
-                      {oppCoaches}
-                    </select>
-                  </label>
-                </div>
+                <div></div>
+                <div></div>
               </div>
             </div>
           </div>
@@ -518,6 +542,34 @@ class GameResultsTable extends React.Component {
     }
 
     if ('vacate' in filters && filters.vacate == 'false') {
+      let year = gameDate.getFullYear()
+      let result = game.result.toLowerCase()
+      if ((year == '2012' || year == '2013') && result == 'w') {
+        return false
+      }
+    }
+
+    if ('won_by' in filters) {
+      let wonBy = filters.won_by
+      let ndScore = game.nd_score
+      let oppScore = game.opp_score
+      let scoreDiff = ndScore - oppScore
+      let gameResult = game.result
+
+      if (wonBy > 0) {
+        if (scoreDiff <= 0 || scoreDiff < wonBy) {
+          return false
+        }
+      } else if (wonBy < 0) {
+        if (scoreDiff > 0 || scoreDiff > wonBy) {
+          return false
+        }
+      } else {
+        if (gameResult != 'T') {
+          return false
+        }
+      }
+
       let year = gameDate.getFullYear()
       let result = game.result.toLowerCase()
       if ((year == '2012' || year == '2013') && result == 'w') {
