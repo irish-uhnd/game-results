@@ -689,7 +689,8 @@ class GameResultsTable extends React.Component {
 }
 
 function FilterableGameTable({props}) {
-  const lastGame = props.games.at(-1)
+  // const lastGame = props.games.at(-1)
+  const lastGame = props.games[props.games.length - 1]
   console.log('last game is')
   console.log(lastGame)
   console.log(props)
