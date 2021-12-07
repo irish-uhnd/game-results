@@ -258,6 +258,24 @@ function SearchBar({props}) {
     ))
   wonBy.unshift(<option key="" value="" />)
 
+  const wonByNoMoreThan = [...Array(131).keys()]
+    .map((i) => 80 - i)
+    .map((i) => (
+      <option key={i} value={i}>
+        {i}
+      </option>
+    ))
+  wonByNoMoreThan.unshift(<option key="" value="" />)
+
+  const wonByExactly = [...Array(131).keys()]
+    .map((i) => 80 - i)
+    .map((i) => (
+      <option key={i} value={i}>
+        {i}
+      </option>
+    ))
+  wonByExactly.unshift(<option key="" value="" />)
+
   return (
     <div className="search-bar">
       <header className="search-bar-header">
@@ -378,6 +396,32 @@ function SearchBar({props}) {
               value={'won_by' in filters ? filters.won_by : ''}
             >
               {wonBy}
+            </select>
+          </label>
+        </div>
+        <div className="filters-won-by-no-more-than">
+          <label>
+            Won/lost by no more than: &nbsp;
+            <select
+              onChange={handleFilter('won_by_no_more_than')}
+              value={
+                'won_by_no_more_than' in filters
+                  ? filters.won_by_no_more_than
+                  : ''
+              }
+            >
+              {wonByNoMoreThan}
+            </select>
+          </label>
+        </div>
+        <div className="filters-won-by-exactly">
+          <label>
+            Won/lost by exactly: &nbsp;
+            <select
+              onChange={handleFilter('won_by_exactly')}
+              value={'won_by_exactly' in filters ? filters.won_by_exactly : ''}
+            >
+              {wonByExactly}
             </select>
           </label>
         </div>
@@ -570,11 +614,59 @@ class GameResultsTable extends React.Component {
         }
       }
 
-      let year = gameDate.getFullYear()
-      let result = game.result.toLowerCase()
-      if ((year == '2012' || year == '2013') && result == 'w') {
+      // let year = gameDate.getFullYear()
+      // let result = game.result.toLowerCase()
+      // if ((year == '2012' || year == '2013') && result == 'w') {
+      //   return false
+      // }
+    }
+
+    if ('won_by_no_more_than' in filters) {
+      let wonByNoMoreThan = filters.won_by_no_more_than
+      let ndScore = game.nd_score
+      let oppScore = game.opp_score
+      let scoreDiff = ndScore - oppScore
+      let gameResult = game.result
+
+      if (wonByNoMoreThan > 0) {
+        if (scoreDiff <= 0 || scoreDiff > wonByNoMoreThan) {
+          return false
+        }
+      } else if (wonByNoMoreThan < 0) {
+        if (scoreDiff > 0 || scoreDiff < wonByNoMoreThan) {
+          return false
+        }
+      } else {
+        if (gameResult != 'T') {
+          return false
+        }
+      }
+    }
+
+    if ('won_by_exactly' in filters) {
+      let wonByExactly = filters.won_by_exactly
+      let ndScore = game.nd_score
+      let oppScore = game.opp_score
+      let scoreDiff = ndScore - oppScore
+      let gameResult = game.result
+
+      if (scoreDiff != wonByExactly) {
         return false
       }
+
+      // if (wonByExactly > 0) {
+      //   if (scoreDiff != wonByExactly) {
+      //     return false
+      //   }
+      // } else if (wonByExactly < 0) {
+      //   if (scoreDiff != wonByExactly) {
+      //     return false
+      //   }
+      // } else {
+      //   if (gameResult != 'T') {
+      //     return false
+      //   }
+      // }
     }
 
     return true
