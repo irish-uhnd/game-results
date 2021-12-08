@@ -1,0 +1,43 @@
+.filter-table {
+  display: flex;
+  flex-direction: column;
+  max-width: 44rem;
+  margin: auto;
+
+  &__date {
+    display: flex;
+    justify-content: center;
+
+    &--text {
+      margin-right: 0.3rem;
+    }
+
+    &--input {
+      &:not(:last-child) {
+        margin-right: 0.8rem;
+      }
+    }
+  }
+
+  &__row {
+    display: flex;
+    min-height: 2.75rem;
+
+    &__text {
+      margin-right: 1.5rem;
+    }
+
+    &__input {
+    }
+  }
+
+  &__column {
+    flex: 1;
+    // border: 1px solid red;
+
+    &--span2 {
+      flex: 2;
+      text-align: center;
+    }
+  }
+}
