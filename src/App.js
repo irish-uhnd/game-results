@@ -593,7 +593,7 @@ class GameResultsTable extends React.Component {
       if (site !== filters.site) return false
     }
 
-    if ('vacate' in filters && filters.vacate == 'false') {
+    if ('vacate' in filters && filters.vacate.toLowerCase() == 'false') {
       let year = gameDate.getFullYear()
       let result = game.result.toLowerCase()
       if ((year == '2012' || year == '2013') && result == 'w') {
