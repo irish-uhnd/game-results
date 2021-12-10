@@ -242,9 +242,12 @@ function SearchBar({props}) {
     </option>
   ))
 
-  const vacated = ['true', 'false'].map((b) => (
-    <option key={b} value={b.toLowerCase()}>
-      {b}
+  const vacated = [
+    {key: 'Yes', value: 'true'},
+    {key: 'No', value: 'false'},
+  ].map(({key, value}) => (
+    <option key={key} value={value}>
+      {key}
     </option>
   ))
   vacated.unshift(<option key="" value="" />)
@@ -281,8 +284,8 @@ function SearchBar({props}) {
       <header className="search-bar-header">
         <h1>Notre Dame Football All-Time Game Results</h1>
       </header>
-      <main class="main">
-        <div class="filter-table">
+      <main className="main">
+        <div className="filter-table">
           <div className="filter-table__row">
             <div className="filter-table__column">Site:</div>
             <div className="filter-table__column">
@@ -398,7 +401,7 @@ function SearchBar({props}) {
 
           <div className="filter-table__row">
             <div className="filter-table__column filter-table__column--span2">
-              <div class="filter-table__date">
+              <div className="filter-table__date">
                 <div className="filter-table__date--text">Year:</div>
                 <div className="filter-table__date--input">
                   <select
@@ -598,7 +601,6 @@ class GameResultsTable extends React.Component {
       let result = game.result.toLowerCase()
 
       if ((year == '2012' || year == '2013') && result == 'w') {
-        console.log('found one...')
         return false
       }
     }

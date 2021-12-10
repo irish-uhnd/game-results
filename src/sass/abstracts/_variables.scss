@@ -11,3 +11,9 @@ $color-btn-text: white;
 $grid-width: 114rem; // 1140px is standard
 $gutter-vertical: 4rem;
 $gutter-horizontal: 1rem;
+
+$shadow-dark: 0 2rem 6rem rgba(0, 0, 0, 0.3);
+$shadow-light: 0 0.5rem 4rem rgba(0, 0, 0, 0.2);
+
+$bp-large: 62.5em; // 1000px / 16
+$bp-medium: 25em; // 540px / 16
