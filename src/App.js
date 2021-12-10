@@ -543,7 +543,7 @@ class GameResultsTable extends React.Component {
 
   includeGame(game) {
     // Check if year matches
-    let gameDate = new Date(game.date.replace('-', '/'))
+    let gameDate = new Date(game.date.replace(/-/g, '/'))
     let filters = this.props.filters
 
     // if (gameDate.getFullYear() == '2016') {
@@ -596,9 +596,7 @@ class GameResultsTable extends React.Component {
     if ('vacate' in filters && filters.vacate.toLowerCase() == 'false') {
       let year = gameDate.getFullYear()
       let result = game.result.toLowerCase()
-      console.log(
-        `checking for vacate=${filters.vacate} year=${year} result=${result}`
-      )
+
       if ((year == '2012' || year == '2013') && result == 'w') {
         console.log('found one...')
         return false
