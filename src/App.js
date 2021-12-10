@@ -295,7 +295,7 @@ function SearchBar({props}) {
             </div>
           </div>
           <div className="filter-table__row">
-            <div className="filter-table__column">Vacated wins:</div>
+            <div className="filter-table__column">Include vacated wins?:</div>
             <div className="filter-table__column">
               <select
                 onChange={handleFilter('vacate')}
