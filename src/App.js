@@ -242,7 +242,7 @@ function SearchBar({props}) {
     </option>
   ))
 
-  const vacated = ['True', 'False'].map((b) => (
+  const vacated = ['true', 'false'].map((b) => (
     <option key={b} value={b.toLowerCase()}>
       {b}
     </option>
