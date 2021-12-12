@@ -48,6 +48,15 @@ module.exports = {
           'style-loader',
           // Translates CSS into CommonJS
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+              // config: {
+              //   path: 'postcss.config.js',
+              // },
+            },
+          },
           // Compiles Sass to CSS
           'sass-loader',
         ],
