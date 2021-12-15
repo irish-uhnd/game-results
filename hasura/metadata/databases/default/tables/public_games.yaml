@@ -27,5 +27,7 @@ select_permissions:
     - opp_rank
     - opp_final_rank
     - opp_team_id
+    - is_bowl
+    - season
     filter: {}
   role: anonymous

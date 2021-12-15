@@ -1,1 +1,1 @@
-INSERT INTO "public"."coaches"("id", "first_name", "middle_name", "last_name", "created_at", "updated_at", "suffix", "is_notre_dame", "is_opponent") VALUES (469, E'Mike', null, Gundy, E'2021-12-15T03:21:56.694221+00:00', E'2021-12-15T03:21:56.694221+00:00', null, false, true);
+INSERT INTO "public"."coaches"("first_name", "middle_name", "last_name", "created_at", "updated_at", "suffix", "is_notre_dame", "is_opponent") VALUES (E'Mike', null, E'Gundy', E'2021-12-15T03:21:56.694221+00:00', E'2021-12-15T03:21:56.694221+00:00', null, false, true);
