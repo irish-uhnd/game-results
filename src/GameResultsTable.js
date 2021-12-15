@@ -145,6 +145,22 @@ export default class GameResultsTable extends React.Component {
       // }
     }
 
+    if ('season' in filters) {
+      let season = game.season
+
+      if (season !== parseInt(filters.season)) {
+        return false
+      }
+    }
+
+    if ('is_bowl' in filters) {
+      let isBowl = game.is_bowl
+
+      if (!isBowl) {
+        return false
+      }
+    }
+
     return true
   }
 

@@ -4,7 +4,7 @@ import {hot} from 'react-hot-loader'
 // import './styles.css'
 import './sass/main.scss'
 // import './tailwind.css'
-import ALL_GAMES from './data/games3.json'
+// import ALL_GAMES from './data/games3.json'
 // const ALL_GAMES = JSON.parse(json);
 
 import FilterableGameTable from './FilterableGameTable'
@@ -81,7 +81,7 @@ const ALL_DATA = gql`
       full_name
     }
 
-    teams: teams {
+    teams: teams(order_by: {name: asc}) {
       id
       name
     }
@@ -92,6 +92,8 @@ const ALL_DATA = gql`
       nd_rank
       result
       site
+      season
+      is_bowl
       ndCoach {
         id
         full_name

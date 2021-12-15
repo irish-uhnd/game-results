@@ -274,6 +274,30 @@ export default function SearchBar({props}) {
           </div>
 
           <div className="filter-table__row">
+            <div className="filter-table__column">Bowl Game?</div>
+            <div className="filter-table__column">
+              <select
+                onChange={handleFilter('is_bowl')}
+                value={'is_bowl' in filters ? filters.isBowl : ''}
+              >
+                {vacated}
+              </select>
+            </div>
+          </div>
+
+          <div className="filter-table__row">
+            <div className="filter-table__column">Season</div>
+            <div className="filter-table__column">
+              <select
+                onChange={handleFilter('season')}
+                value={'season' in filters ? filters.season : ''}
+              >
+                {years}
+              </select>
+            </div>
+          </div>
+
+          <div className="filter-table__row">
             <div className="filter-table__column filter-table__column--span2">
               <div className="filter-table__date">
                 <div className="filter-table__date--text">Year:</div>
@@ -328,78 +352,6 @@ export default function SearchBar({props}) {
         </section>
       </main>
 
-      {/* <fieldset className="top-level">
-        <fieldset>
-          <legend>Date</legend>
-          <label>
-            Year:{' '}
-            <select
-              onChange={handleFilter('year')}
-              value={'year' in filters ? filters.year : ''}
-            >
-              {years}
-            </select>
-          </label>
-          <label>
-            {' '}
-            Month:{' '}
-            <select
-              onChange={handleFilter('month')}
-              value={'month' in filters ? filters.month : ''}
-            >
-              {months}
-            </select>
-          </label>
-          <label>
-            {' '}
-            Day:{' '}
-            <select
-              onChange={handleFilter('day')}
-              value={'day' in filters ? filters.day : ''}
-            >
-              {days}
-            </select>
-          </label>
-        </fieldset>
-
-        <fieldset>
-          <legend>Teams</legend>
-          <select
-            onChange={handleFilter('opponent')}
-            value={'opponent' in filters ? filters.opponent : ''}
-          >
-            {opponents}
-          </select>
-        </fieldset>
-
-        <fieldset>
-          <legend>Coaches</legend>
-          <label>
-            Notre Dame
-            <select
-              onChange={handleFilter('nd_coach')}
-              value={'nd_coach' in filters ? filters.nd_coach : ''}
-            >
-              {ndCoaches}
-            </select>
-          </label>
-          <label>
-            Opponent
-            <select
-              onChange={handleFilter('opp_coach')}
-              value={'opp_coach' in filters ? filters.opp_coach : ''}
-            >
-              {oppCoaches}
-            </select>
-          </label>
-        </fieldset>
-        <div className="start-over">
-          <button className="btn btn--color" onClick={handleClear}>
-            Start Over
-          </button>
-        </div>
-        <br />
-      </fieldset> */}
       <div className="start-over">
         <button className="btn btn--color" onClick={handleClear}>
           Start Over
