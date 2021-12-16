@@ -1,6 +1,7 @@
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/index.js',
@@ -68,6 +69,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    new Dotenv(),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     HASURA_GRAPHQL_URL: JSON.stringify(process.env.HASURA_GRAPHQL_URL),
+    //   },
+    // }),
+    new Dotenv({systemvars: true}),
   ],
 }
