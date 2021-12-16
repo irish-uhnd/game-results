@@ -154,9 +154,10 @@ export default class GameResultsTable extends React.Component {
     }
 
     if ('is_bowl' in filters) {
-      let isBowl = game.is_bowl
+      let isBowl = game.is_bowl.toString()
+      let bowlFilter = filters.is_bowl
 
-      if (!isBowl) {
+      if (isBowl !== bowlFilter) {
         return false
       }
     }
