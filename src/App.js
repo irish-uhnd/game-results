@@ -38,8 +38,8 @@ import {isTaggedTemplateExpression} from 'typescript'
 const httpLink = createHttpLink({
   // uri: 'https://tidy-basilisk-31.hasura.app/v1/graphql',
   // uri: 'http://localhost:8080/v1/graphql',
-  // uri: process.env.HASURA_GRAPHQL_URL,
-  uri: 'https://bold-dragon-46.hasura.app/v1/graphql',
+  uri: process.env.HASURA_GRAPHQL_URL,
+  // uri: 'https://bold-dragon-46.hasura.app/v1/graphql',
 })
 
 const authLink = setContext((_, {headers}) => {
