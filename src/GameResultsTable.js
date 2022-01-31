@@ -6,6 +6,7 @@ export default class GameResultsTable extends React.Component {
     this.wins = 0
     this.losses = 0
     this.ties = 0
+    this.state = {order: 'date'}
   }
 
   includeGame(game) {
@@ -212,14 +213,30 @@ export default class GameResultsTable extends React.Component {
     return matchingGames
   }
 
-  orderColumnBy(e) {
+  orderRowsBy(e) {
     const col = e.target.id
-    console.log(col)
+    this.setState({order: col.split('table-').slice(1).join('-')})
+  }
+
+  compareGames(key, subkey = undefined, ordering = 'asc') {
+    return function innertSort(a, b) {
+      if (a[key] > b[key]) {
+        return 1
+      } else if (a[key] < b[key]) {
+        return -1
+      } else {
+        return 0
+      }
+    }
   }
 
   render() {
     const resultRows = []
     const matchingGames = this.getMatchingGames()
+
+    matchingGames.sort(this.compareGames(this.state.order))
+    // console.log(`Sort by ${this.state.order}`)
+    // window.g = matchingGames.slice().sort(compare(this.state.order))
 
     matchingGames.forEach((game) => {
       resultRows.push(
@@ -272,7 +289,7 @@ export default class GameResultsTable extends React.Component {
                       id={`table-${k}`}
                       className={`results-table__${k}`}
                       key={k}
-                      onClick={this.orderColumnBy}
+                      onClick={this.orderRowsBy.bind(this)}
                     >
                       {v}
                     </th>
