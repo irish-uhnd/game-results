@@ -212,6 +212,11 @@ export default class GameResultsTable extends React.Component {
     return matchingGames
   }
 
+  orderColumnBy(e) {
+    const col = e.target.id
+    console.log(col)
+  }
+
   render() {
     const resultRows = []
     const matchingGames = this.getMatchingGames()
@@ -254,14 +259,24 @@ export default class GameResultsTable extends React.Component {
             <table>
               <thead>
                 <tr>
-                  <th className="results-table__result">Result</th>
-                  <th className="results-table__date">Date</th>
-                  <th className="results-table__site">Site</th>
-                  <th className="results-table__nd-coach">ND Coach</th>
-                  <th className="results-table__opp-coach">Opponent Coach</th>
-                  <th className="results-table__nd-score">ND Score</th>
-                  <th className="results-table__opp-score">Opponent Score</th>
-                  <th className="results-table__opponent">Opponent</th>
+                  {Object.entries({
+                    date: 'Date',
+                    result: 'Result',
+                    site: 'Site',
+                    'nd-coach': 'ND Coach',
+                    'opp-coach': 'Opponent Coach',
+                    'nd-score': 'ND Score',
+                    'opp-score': 'Opponent Score',
+                  }).map(([k, v]) => (
+                    <th
+                      id={`table-${k}`}
+                      className={`results-table__${k}`}
+                      key={k}
+                      onClick={this.orderColumnBy}
+                    >
+                      {v}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>{resultRows}</tbody>
