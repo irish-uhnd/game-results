@@ -215,18 +215,23 @@ export default class GameResultsTable extends React.Component {
 
   orderRowsBy(e) {
     const col = e.target.id
-    this.setState({order: col.split('table-').slice(1).join('-')})
+    var direction = this.state.direction === 'asc' ? 'desc' : 'asc'
+    this.setState({
+      order: col.split('table-').slice(1).join('-'),
+      direction: direction,
+    })
   }
 
   compareGames(key, subkey = undefined, ordering = 'asc') {
     return function innertSort(a, b) {
+      var val = 0
       if (a[key] > b[key]) {
-        return 1
+        val = 1
       } else if (a[key] < b[key]) {
-        return -1
-      } else {
-        return 0
+        val = -1
       }
+
+      return val * (ordering === 'asc' ? 1 : -1)
     }
   }
 
@@ -234,8 +239,10 @@ export default class GameResultsTable extends React.Component {
     const resultRows = []
     const matchingGames = this.getMatchingGames()
 
-    matchingGames.sort(this.compareGames(this.state.order))
-    // console.log(`Sort by ${this.state.order}`)
+    matchingGames.sort(
+      this.compareGames(this.state.order, undefined, this.state.direction)
+    )
+    // console.log(`Sort by ${this.state.order}, dir=${this.state.direction}`)
     // window.g = matchingGames.slice().sort(compare(this.state.order))
 
     matchingGames.forEach((game) => {
@@ -284,6 +291,7 @@ export default class GameResultsTable extends React.Component {
                     'opp-coach': 'Opponent Coach',
                     'nd-score': 'ND Score',
                     'opp-score': 'Opponent Score',
+                    opponent: 'Opponent',
                   }).map(([k, v]) => (
                     <th
                       id={`table-${k}`}
