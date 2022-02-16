@@ -223,15 +223,51 @@ export default class GameResultsTable extends React.Component {
   }
 
   compareGames(key, subkey = undefined, ordering = 'asc') {
-    return function innertSort(a, b) {
-      var val = 0
-      if (a[key] > b[key]) {
-        val = 1
-      } else if (a[key] < b[key]) {
-        val = -1
+    var dunderizedKey = '',
+      sawUnder = false,
+      key = key.replaceAll('__', '.'),
+      numTokens = key.split('.').length - 1,
+      currTokens = 0
+
+    if (numTokens === 0) {
+      dunderizedKey = key
+    }
+
+    for (var z = 0; z < key.length && numTokens > 0; z++) {
+      var val = key[z].toLowerCase()
+
+      if (val === '.') {
+        currTokens++
+        if (currTokens >= numTokens) {
+          dunderizedKey += key.slice(key.lastIndexOf('.'))
+          break
+        }
       }
 
-      return val * (ordering === 'asc' ? 1 : -1)
+      if (sawUnder) {
+        val = val.toUpperCase()
+        sawUnder = false
+      } else {
+        if (val === '_') {
+          sawUnder = true
+          continue
+        }
+      }
+
+      dunderizedKey += val
+    }
+    console.log(dunderizedKey)
+
+    return function innertSort(a, b) {
+      var sortOrder = 0
+
+      if (a[dunderizedKey] > b[dunderizedKey]) {
+        sortOrder = 1
+      } else if (a[dunderizedKey] < b[dunderizedKey]) {
+        sortOrder = -1
+      }
+
+      return sortOrder * (ordering === 'asc' ? 1 : -1)
     }
   }
 
@@ -287,11 +323,11 @@ export default class GameResultsTable extends React.Component {
                     date: 'Date',
                     result: 'Result',
                     site: 'Site',
-                    'nd-coach': 'ND Coach',
-                    'opp-coach': 'Opponent Coach',
-                    'nd-score': 'ND Score',
-                    'opp-score': 'Opponent Score',
-                    opponent: 'Opponent',
+                    'nd-coach__full_name': 'ND Coach',
+                    'opp-coach__full_name': 'Opponent Coach',
+                    nd_score: 'ND Score',
+                    opp_score: 'Opponent Score',
+                    opponent__name: 'Opponent',
                   }).map(([k, v]) => (
                     <th
                       id={`table-${k}`}
