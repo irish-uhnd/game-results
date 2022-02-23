@@ -11,6 +11,9 @@ export default function FilterableGameTable({props}) {
   console.log(props)
   const currentYear = new Date(lastGame.date).getFullYear()
 
+  // https://capacitorjs.com/docs/apis/splash-screen
+  // Would rather put this Splash screen hiding in the App component, but it's
+  // causing a hook-related error.
   React.useEffect(() => {
     if (!props.loading) {
       hideSplash()
@@ -19,10 +22,7 @@ export default function FilterableGameTable({props}) {
   }, [])
 
   const hideSplash = async () => {
-    // await SplashScreen.hide()
-    await SplashScreen.show({
-      autoHide: false,
-    })
+    await SplashScreen.hide()
   }
 
   const [state, setState] = React.useState({
