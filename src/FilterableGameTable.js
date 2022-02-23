@@ -1,6 +1,7 @@
 import React from 'react'
 import SearchBar from './SearchBar'
 import GameResultsTable from './GameResultsTable'
+import {SplashScreen} from '@capacitor/splash-screen'
 
 export default function FilterableGameTable({props}) {
   // const lastGame = props.games.at(-1)
@@ -9,6 +10,20 @@ export default function FilterableGameTable({props}) {
   console.log(lastGame)
   console.log(props)
   const currentYear = new Date(lastGame.date).getFullYear()
+
+  React.useEffect(() => {
+    if (!props.loading) {
+      hideSplash()
+      console.log('yay')
+    }
+  }, [])
+
+  const hideSplash = async () => {
+    // await SplashScreen.hide()
+    await SplashScreen.show({
+      autoHide: false,
+    })
+  }
 
   const [state, setState] = React.useState({
     filters: {},
