@@ -9,7 +9,8 @@ const config: CapacitorConfig = {
     SplashScreen: {
       launchAutoHide: false,
       showSpinner: true,
-      iosSpinnerStyle: 'large'
+      iosSpinnerStyle: 'large',
+      androidSpinnerStyle: 'large'
     }
   },
   server: {
