@@ -254,14 +254,14 @@ export default class GameResultsTable extends React.Component {
             <table>
               <thead>
                 <tr>
-                  <th class="results-table__date">Date</th>
-                  <th class="results-table__result">Result</th>
-                  <th class="results-table__site">Site</th>
-                  <th class="results-table__nd-coach">ND Coach</th>
-                  <th class="results-table__opp-coach">Opponent Coach</th>
-                  <th class="results-table__nd-score">ND Score</th>
-                  <th class="results-table__opp-score">Opponent Score</th>
-                  <th class="results-table__opponent">Opponent</th>
+                  <th className="results-table__result">Result</th>
+                  <th className="results-table__date">Date</th>
+                  <th className="results-table__site">Site</th>
+                  <th className="results-table__nd-coach">ND Coach</th>
+                  <th className="results-table__opp-coach">Opponent Coach</th>
+                  <th className="results-table__nd-score">ND Score</th>
+                  <th className="results-table__opp-score">Opponent Score</th>
+                  <th className="results-table__opponent">Opponent</th>
                 </tr>
               </thead>
               <tbody>{resultRows}</tbody>
