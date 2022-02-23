@@ -4,7 +4,15 @@ const config: CapacitorConfig = {
   appId: 'com.uhnd.games',
   appName: 'Notre Dame Football Game Results',
   webDir: 'dist',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  plugins: {
+    SplashScreen: {
+      launchAutoHide: false,
+      showSpinner: true,
+      iosSpinnerStyle: 'large',
+      androidSpinnerStyle: 'large'
+    }
+  },
   server: {
       cleartext: true
   }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {hot} from 'react-hot-loader'
 // import ALL_GAMES from './gamelist_full'
 // import './styles.css'
@@ -147,6 +147,7 @@ function App() {
           teams: data.teams,
           games: data.games,
           sites: data.sites,
+          loading: loading,
         }}
       />
     </div>
