@@ -156,7 +156,10 @@ export default function SearchBar({props}) {
   return (
     <div className="search-bar">
       <header className="search-bar-header">
-        <h1>Notre Dame Football All-Time Game Results</h1>
+        <h1>
+          <span className="search-bar-header__title1">Notre Dame Football</span>{' '}
+          <span className="search-bar-header__title2">Game Results</span>
+        </h1>
       </header>
       <main className="main">
         <div className="filter-table">

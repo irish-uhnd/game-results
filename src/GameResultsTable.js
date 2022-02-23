@@ -219,14 +219,14 @@ export default class GameResultsTable extends React.Component {
     matchingGames.forEach((game) => {
       resultRows.push(
         <tr key={game.id}>
-          <td>{game.date}</td>
-          <td>{game.result}</td>
-          <td>{game.site}</td>
-          <td>{game.ndCoach.full_name}</td>
-          <td>{game.oppCoach.full_name}</td>
-          <td>{game.nd_score}</td>
-          <td>{game.opp_score}</td>
-          <td>{game.opponent.name}</td>
+          <td class="results-table__date">{game.date}</td>
+          <td class="results-table__result">{game.result}</td>
+          <td class="results-table__site">{game.site}</td>
+          <td class="results-table__nd-coach">{game.ndCoach.full_name}</td>
+          <td class="results-table__opp-coach">{game.oppCoach.full_name}</td>
+          <td class="results-table__nd-score">{game.nd_score}</td>
+          <td class="results-table__opp-score">{game.opp_score}</td>
+          <td class="results-table__opponent">{game.opponent.name}</td>
         </tr>
       )
     })
@@ -250,18 +250,18 @@ export default class GameResultsTable extends React.Component {
           </fieldset>
         </div>
         <div className="results-table">
-          <div className="game-list">
+          <div className="results-table__game-list">
             <table>
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Result</th>
-                  <th>Site</th>
-                  <th>ND Coach</th>
-                  <th>Opponent Coach</th>
-                  <th>ND Score</th>
-                  <th>Opponent Score</th>
-                  <th>Opponent</th>
+                  <th class="results-table__date">Date</th>
+                  <th class="results-table__result">Result</th>
+                  <th class="results-table__site">Site</th>
+                  <th class="results-table__nd-coach">ND Coach</th>
+                  <th class="results-table__opp-coach">Opponent Coach</th>
+                  <th class="results-table__nd-score">ND Score</th>
+                  <th class="results-table__opp-score">Opponent Score</th>
+                  <th class="results-table__opponent">Opponent</th>
                 </tr>
               </thead>
               <tbody>{resultRows}</tbody>

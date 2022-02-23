@@ -1,3 +1,25 @@
-.search-bar-header h1 {
-  text-align: center;
+.search-bar-header {
+  & h1 {
+    text-align: center;
+  }
+
+  &__title1 {
+    @media only screen and (max-width: $bp-large) {
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      line-height: 100%;
+    }
+  }
+
+  &__title2 {
+    @media only screen and (max-width: $bp-large) {
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin: 1rem 0 2rem 0;
+      line-height: 100%;
+    }
+  }
 }

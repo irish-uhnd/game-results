@@ -5,7 +5,7 @@
     font-size: 1rem;
   }
 
-  .game-list {
+  &__game-list {
     color: $color-result-set-rows; // adsf
     position: absolute;
     top: 1.4rem;
@@ -16,5 +16,38 @@
       text-align: left;
       width: 85vw;
     }
+  }
+
+  &__date {
+  }
+
+  &__result {
+  }
+
+  &__site {
+    @media only screen and (max-width: $bp-large) {
+      display: none;
+    }
+  }
+
+  &__nd-coach {
+    @media only screen and (max-width: $bp-large) {
+      display: none;
+    }
+  }
+
+  &__opp-coach {
+    @media only screen and (max-width: $bp-large) {
+      display: none;
+    }
+  }
+
+  &__nd-score {
+  }
+
+  &__opp-score {
+  }
+
+  &__opponent {
   }
 }

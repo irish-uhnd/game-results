@@ -1,6 +1,6 @@
 .filterable-game-table {
   /* background-image: linear-gradient(to right bottom, #aebcdfd1, #81cafad1),
-    url(../img/notre_dame_usc_2019.jpg); */
+  url(../img/notre_dame_usc_2019.jpg); */
   background-image: linear-gradient(
       to right bottom,
       rgba($background-color-light, 0.95) 15%,
@@ -15,4 +15,8 @@
   border-radius: 0.4rem;
   box-shadow: $shadow-light;
   /* clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%); */
+
+  @media only screen and (max-width: $bp-large) {
+    padding-top: 5rem;
+  }
 }
