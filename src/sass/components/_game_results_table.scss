@@ -18,6 +18,12 @@
     }
   }
 
+  &__header {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   &__date {
   }
 

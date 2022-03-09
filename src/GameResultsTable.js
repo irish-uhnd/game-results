@@ -222,15 +222,23 @@ export default class GameResultsTable extends React.Component {
     })
   }
 
+  // We may need to sort by subkeys (ie: properties) of an object.  A "-" (dash)
+  // represents a dereference of an object, while a "__" (dunder) represents
+  // a value to be sorted by.  For example:
+  // nd-score__full_name is looked up as ndScore.full_name
+  // the "ndScore" object is retrieved, and then the "full_name" property on that
+  // value is used for sorting.
+  // This is done to handle the Hasura naming style.  Objects use camelCase while
+  // properties use snake_case.
   compareGames(key, subkey = undefined, ordering = 'asc') {
-    var dunderizedKey = '',
+    var dedunderizedKey = '',
       sawUnder = false,
       key = key.replaceAll('__', '.'),
       numTokens = key.split('.').length - 1,
       currTokens = 0
 
     if (numTokens === 0) {
-      dunderizedKey = key
+      dedunderizedKey = key
     }
 
     for (var z = 0; z < key.length && numTokens > 0; z++) {
@@ -239,7 +247,7 @@ export default class GameResultsTable extends React.Component {
       if (val === '.') {
         currTokens++
         if (currTokens >= numTokens) {
-          dunderizedKey += key.slice(key.lastIndexOf('.'))
+          dedunderizedKey += key.slice(key.lastIndexOf('.'))
           break
         }
       }
@@ -248,24 +256,42 @@ export default class GameResultsTable extends React.Component {
         val = val.toUpperCase()
         sawUnder = false
       } else {
-        if (val === '_') {
+        if (val === '-') {
           sawUnder = true
           continue
         }
       }
 
-      dunderizedKey += val
+      dedunderizedKey += val
     }
-    console.log(dunderizedKey)
+    console.log(`dedunderizedKey=${dedunderizedKey}`)
 
-    return function innertSort(a, b) {
+    return function innerSort(a, b) {
       var sortOrder = 0
+      console.log(a)
+      console.log(b)
+      console.log(dedunderizedKey)
+      console.log('-')
+      window.a = a
+      window.b = b
 
-      if (a[dunderizedKey] > b[dunderizedKey]) {
+      var keys = dedunderizedKey.split('.'),
+        aVal = a,
+        bVal = b
+
+      keys.forEach((k, i) => {
+        // console.log(`k=${k} i=${i}`)
+        aVal = aVal[k]
+        bVal = bVal[k]
+        // console.log(`aVal=${aVal} bVal=${bVal}`)
+      })
+
+      if (aVal > bVal) {
         sortOrder = 1
-      } else if (a[dunderizedKey] < b[dunderizedKey]) {
+      } else if (aVal < bVal) {
         sortOrder = -1
       }
+      // console.log(sortOrder)
 
       return sortOrder * (ordering === 'asc' ? 1 : -1)
     }
@@ -278,20 +304,22 @@ export default class GameResultsTable extends React.Component {
     matchingGames.sort(
       this.compareGames(this.state.order, undefined, this.state.direction)
     )
-    // console.log(`Sort by ${this.state.order}, dir=${this.state.direction}`)
+    console.log(`Sort by ${this.state.order}, dir=${this.state.direction}`)
     // window.g = matchingGames.slice().sort(compare(this.state.order))
 
     matchingGames.forEach((game) => {
       resultRows.push(
         <tr key={game.id}>
-          <td class="results-table__date">{game.date}</td>
-          <td class="results-table__result">{game.result}</td>
-          <td class="results-table__site">{game.site}</td>
-          <td class="results-table__nd-coach">{game.ndCoach.full_name}</td>
-          <td class="results-table__opp-coach">{game.oppCoach.full_name}</td>
-          <td class="results-table__nd-score">{game.nd_score}</td>
-          <td class="results-table__opp-score">{game.opp_score}</td>
-          <td class="results-table__opponent">{game.opponent.name}</td>
+          <td className="results-table__date">{game.date}</td>
+          <td className="results-table__result">{game.result}</td>
+          <td className="results-table__site">{game.site}</td>
+          <td className="results-table__nd-coach">{game.ndCoach.full_name}</td>
+          <td className="results-table__opp-coach">
+            {game.oppCoach.full_name}
+          </td>
+          <td className="results-table__nd-score">{game.nd_score}</td>
+          <td className="results-table__opp-score">{game.opp_score}</td>
+          <td className="results-table__opponent">{game.opponent.name}</td>
         </tr>
       )
     })
@@ -331,7 +359,7 @@ export default class GameResultsTable extends React.Component {
                   }).map(([k, v]) => (
                     <th
                       id={`table-${k}`}
-                      className={`results-table__${k}`}
+                      className={`results-table__header results-table__${k}`}
                       key={k}
                       onClick={this.orderRowsBy.bind(this)}
                     >
