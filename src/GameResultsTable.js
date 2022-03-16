@@ -313,13 +313,17 @@ export default class GameResultsTable extends React.Component {
           <td className="results-table__date">{game.date}</td>
           <td className="results-table__result">{game.result}</td>
           <td className="results-table__site">{game.site}</td>
-          <td className="results-table__nd-coach">{game.ndCoach.full_name}</td>
-          <td className="results-table__opp-coach">
+          <td className="results-table__nd-coach__full_name">
+            {game.ndCoach.full_name}
+          </td>
+          <td className="results-table__opp-coach__full_name">
             {game.oppCoach.full_name}
           </td>
           <td className="results-table__nd-score">{game.nd_score}</td>
           <td className="results-table__opp-score">{game.opp_score}</td>
-          <td className="results-table__opponent">{game.opponent.name}</td>
+          <td className="results-table__opponent__name">
+            {game.opponent.name}
+          </td>
         </tr>
       )
     })
@@ -357,6 +361,7 @@ export default class GameResultsTable extends React.Component {
                     opp_score: 'Opponent Score',
                     opponent__name: 'Opponent',
                   }).map(([k, v]) => (
+                    // NOTE: class names are used for sorting
                     <th
                       id={`table-${k}`}
                       className={`results-table__header results-table__${k}`}

@@ -36,13 +36,13 @@
     }
   }
 
-  &__nd-coach {
+  &__nd-coach__full_name {
     @media only screen and (max-width: $bp-large) {
       display: none;
     }
   }
 
-  &__opp-coach {
+  &__opp-coach__full_name {
     @media only screen and (max-width: $bp-large) {
       display: none;
     }
@@ -54,6 +54,6 @@
   &__opp-score {
   }
 
-  &__opponent {
+  &__opponent__name {
   }
 }
