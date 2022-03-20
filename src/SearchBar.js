@@ -11,11 +11,9 @@ export default function SearchBar({props}) {
     props.onClearFilter()
   }
 
-  const MONTHS = [''].concat([...Array(12).keys()])
-  const DAYS = [''].concat([...Array(32).keys()].slice(1))
-  const YEARS = [''].concat(
-    [...Array(props.year + 1).keys()].slice(1887).reverse()
-  )
+  const MONTHS = [...Array(12).keys()]
+  const DAYS = [...Array(32).keys()].slice(1)
+  const YEARS = [...Array(props.year + 1).keys()].slice(1887).reverse()
 
   const years = YEARS.map((year) => {
     return (
@@ -24,16 +22,35 @@ export default function SearchBar({props}) {
       </option>
     )
   })
+
+  const seasons = [...years]
+  seasons.unshift(<option key="" value="" />)
+
+  years.unshift(
+    <option key="" value="">
+      Year
+    </option>
+  )
   const months = MONTHS.map((month) => (
     <option key={month} value={month}>
       {Number.isNaN(parseInt(month)) ? month : month + 1}
     </option>
   ))
+  months.unshift(
+    <option key="" value="">
+      Month
+    </option>
+  )
   const days = DAYS.map((day) => (
     <option key={day} value={day}>
       {day}
     </option>
   ))
+  days.unshift(
+    <option key="" value="">
+      Day
+    </option>
+  )
 
   const sites = props.sites.map((site) => {
     return (
@@ -133,7 +150,11 @@ export default function SearchBar({props}) {
         {i}
       </option>
     ))
-  wonBy.unshift(<option key="" value="" />)
+  wonBy.unshift(
+    <option key="" value="">
+      At least
+    </option>
+  )
 
   const wonByNoMoreThan = [...Array(131).keys()]
     .map((i) => 80 - i)
@@ -142,7 +163,11 @@ export default function SearchBar({props}) {
         {i}
       </option>
     ))
-  wonByNoMoreThan.unshift(<option key="" value="" />)
+  wonByNoMoreThan.unshift(
+    <option key="" value="">
+      At most
+    </option>
+  )
 
   const wonByExactly = [...Array(131).keys()]
     .map((i) => 80 - i)
@@ -151,7 +176,11 @@ export default function SearchBar({props}) {
         {i}
       </option>
     ))
-  wonByExactly.unshift(<option key="" value="" />)
+  wonByExactly.unshift(
+    <option key="" value="">
+      Exactly
+    </option>
+  )
 
   return (
     <div className="search-bar">
@@ -164,176 +193,155 @@ export default function SearchBar({props}) {
       <main className="main">
         <div className="filter-table">
           <div className="filter-table__row">
-            <div className="filter-table__column">Site:</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('site')}
-                value={'site' in filters ? filters.site : ''}
-              >
-                {sites}
-              </select>
-            </div>
-          </div>
-          <div className="filter-table__row">
-            <div className="filter-table__column">Include vacated wins?:</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('vacate')}
-                value={'vacate' in filters ? filters.vacate : ''}
-              >
-                {vacated}
-              </select>
-            </div>
-          </div>
-          <div className="filter-table__row">
-            <div className="filter-table__column">Result:</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('result')}
-                value={'result' in filters ? filters.result : ''}
-              >
-                {results}
-              </select>
-            </div>
-          </div>
-          <div className="filter-table__row">
-            <div className="filter-table__column">Notre Dame Coach:</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('nd_coach')}
-                value={'nd_coach' in filters ? filters.nd_coach : ''}
-              >
-                {ndCoaches}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column">Opponent:</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('opponent')}
-                value={'opponent' in filters ? filters.opponent : ''}
-              >
-                {opponents}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column">Opponent Coach</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('opp_coach')}
-                value={'opp_coach' in filters ? filters.opp_coach : ''}
-              >
-                {oppCoaches}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column">Won/Lost by at least:</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('won_by')}
-                value={'won_by' in filters ? filters.won_by : ''}
-              >
-                {wonBy}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column">
-              Won/Lost by no more than:
-            </div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('won_by_no_more_than')}
-                value={
-                  'won_by_no_more_than' in filters
-                    ? filters.won_by_no_more_than
-                    : ''
-                }
-              >
-                {wonByNoMoreThan}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column">Won/Lost by exactly</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('won_by_exactly')}
-                value={
-                  'won_by_exactly' in filters ? filters.won_by_exactly : ''
-                }
-              >
-                {wonByExactly}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column">Bowl Game?</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('is_bowl')}
-                value={'is_bowl' in filters ? filters.isBowl : ''}
-              >
-                {vacated}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column">Season</div>
-            <div className="filter-table__column">
-              <select
-                onChange={handleFilter('season')}
-                value={'season' in filters ? filters.season : ''}
-              >
-                {years}
-              </select>
-            </div>
-          </div>
-
-          <div className="filter-table__row">
-            <div className="filter-table__column filter-table__column--span2">
-              <div className="filter-table__date">
-                <div className="filter-table__date--text">Year:</div>
-                <div className="filter-table__date--input">
-                  <select
-                    onChange={handleFilter('year')}
-                    value={'year' in filters ? filters.year : ''}
-                  >
-                    {years}
-                  </select>
-                </div>
-
-                <div className="filter-table__date--text">Month:</div>
-                <div className="filter-table__date--input">
-                  <select
-                    onChange={handleFilter('month')}
-                    value={'month' in filters ? filters.month : ''}
-                  >
-                    {months}
-                  </select>
-                </div>
-
-                <div className="filter-table__date--text">Day:</div>
-                <div className="filter-table__date--input">
-                  <select
-                    onChange={handleFilter('day')}
-                    value={'day' in filters ? filters.day : ''}
-                  >
-                    {days}
-                  </select>
-                </div>
-              </div>
-            </div>
+            <table className="table-filters">
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <td>Site:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('site')}
+                      value={'site' in filters ? filters.site : ''}
+                    >
+                      {sites}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Vacated wins?:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('vacate')}
+                      value={'vacate' in filters ? filters.vacate : ''}
+                    >
+                      {vacated}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Result:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('result')}
+                      value={'result' in filters ? filters.result : ''}
+                    >
+                      {results}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Bowl Game?:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('is_bowl')}
+                      value={'is_bowl' in filters ? filters.isBowl : ''}
+                    >
+                      {vacated}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Notre Dame Coach:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('nd_coach')}
+                      value={'nd_coach' in filters ? filters.nd_coach : ''}
+                    >
+                      {ndCoaches}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Opponent:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('opponent')}
+                      value={'opponent' in filters ? filters.opponent : ''}
+                    >
+                      {opponents}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Opponent Coach:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('opp_coach')}
+                      value={'opp_coach' in filters ? filters.opp_coach : ''}
+                    >
+                      {oppCoaches}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Season:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('season')}
+                      value={'season' in filters ? filters.season : ''}
+                    >
+                      {seasons}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Date:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('year')}
+                      value={'year' in filters ? filters.year : ''}
+                    >
+                      {years}
+                    </select>
+                    <select
+                      onChange={handleFilter('month')}
+                      value={'month' in filters ? filters.month : ''}
+                    >
+                      {months}
+                    </select>
+                    <select
+                      onChange={handleFilter('day')}
+                      value={'day' in filters ? filters.day : ''}
+                    >
+                      {days}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Won/Lost by:</td>
+                  <td>
+                    <select
+                      onChange={handleFilter('won_by')}
+                      value={'won_by' in filters ? filters.won_by : ''}
+                    >
+                      {wonBy}
+                    </select>
+                    <select
+                      onChange={handleFilter('won_by_no_more_than')}
+                      value={
+                        'won_by_no_more_than' in filters
+                          ? filters.won_by_no_more_than
+                          : ''
+                      }
+                    >
+                      {wonByNoMoreThan}
+                    </select>
+                    <span>
+                      <select
+                        onChange={handleFilter('won_by_exactly')}
+                        value={
+                          'won_by_exactly' in filters
+                            ? filters.won_by_exactly
+                            : ''
+                        }
+                      >
+                        {wonByExactly}
+                      </select>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
