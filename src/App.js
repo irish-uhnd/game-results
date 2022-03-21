@@ -135,7 +135,13 @@ const ALL_DATA = gql`
 
 function App() {
   const {loading, error, data} = useQuery(ALL_DATA)
-  if (loading) return 'Loading...'
+  if (loading)
+    return (
+      <div
+        style={{padding: 10 + 'px'}}
+        dangerouslySetInnerHTML={{__html: 'Loading...'}}
+      />
+    )
   if (error) return `Error! ${error.message}`
 
   return (
